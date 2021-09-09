@@ -1,0 +1,59 @@
+
+
+
+
+
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.main {
+  background-color: rgba(187, 250, 250, 0.363);
+  padding: 1rem;
+  .paper {
+    height: calc(100vh - 40px - 2rem);
+    border-radius: 4px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .banner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem 0;
+
+      .cityInfo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        max-width: 50%;
+      }
+    }
+
+    .additionalInfoBanner {
+      display: flex;
+      background-color: rgb(236, 236, 236);
+      width: 70%;
+      justify-content: space-around;
+      text-align: center;
+
+      .weatherInfo {
+        max-width: 200px;
+      }
+
+      .sightsInfo {
+        max-width: 200px;
+      }
+
+      .flightsInfo {
+        max-width: 200px;
+      }
+    }
+  }
+}
