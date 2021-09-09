@@ -18,14 +18,13 @@ body {
     .banner {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-around;
       margin:0;
       background-image: url(./city2.jpg);
       background-position: center;
       background-size: cover;
       width: 100%;
       height: 300px;
-      gap: space-evenly;
 
 
 h1{
