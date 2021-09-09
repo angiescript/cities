@@ -6,13 +6,13 @@ const Homepage = () => {
     <div className={styles.main}>
       <div className={styles.paper}>
         <div className={styles.banner}>
-          <div>
-            <img src="https://via.placeholder.com/300x150" alt="" />
-          </div>
+          
+<img src="https://via.placeholder.com/250"></img>
+
           <div>
             <h1>Cities!</h1>
             <p>A lot of cities. Great info.</p>
-            <input type="text" />
+            <input type="text" placeholder="Search city"/>
           </div>
         </div>
       </div>
