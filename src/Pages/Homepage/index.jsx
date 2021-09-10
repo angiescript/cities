@@ -18,6 +18,7 @@ const Homepage = () => {
         namePrefix: `${query}`,
         sort: "-population ",
         languageCode: "en",
+        types: "CITY"
       },
       headers: {
         "x-rapidapi-host": "wft-geo-db.p.rapidapi.com",
