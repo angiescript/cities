@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./index.module.scss";
 import { useHistory, useParams } from "react-router-dom";
+import Skyscannerapi from "../../components/Skyscannerapi";
 
 const Citypage = () => {
   const capitalizeFirstLetter = (string) => {
@@ -47,6 +48,7 @@ const Citypage = () => {
             </div>
           </div>
           <button onClick={() => history.push("/")}>Back</button>
+        <Skyscannerapi /> 
         </div>
       </div>
     </div>
