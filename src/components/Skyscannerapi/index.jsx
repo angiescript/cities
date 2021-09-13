@@ -3,10 +3,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 const Skyscannerapi = () => {
-  const [airPorts, setAirPorts] = useState([]);
-  const [selectAirport, setSelectAirport] = useState("");
+  const [cityId, setCityId] = useState("");
 
-  const city = "paris";
+  const city = "london"; 
 
   const fetchAirportsByCity = async (city) => {
     const options = {
@@ -23,41 +22,34 @@ const Skyscannerapi = () => {
     const request = await axios
       .request(options)
       .then((response) => {
-        setAirPorts(response.data.Places);
-        console.table(airPorts);
+        setCityId(response.data.Places[0].CityId);
+        console.log(cityId);
+        fetchFlightsByCityId(cityId)
+
       })
       .catch(function (error) {
         console.error(error);
       });
   };
 
-  const fetchFlightsByAirport = async (airportName) => {
-    var options = {
-      method: "GET",
-      url: `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/SE/SEK/SE/SE-sky/${airportName}/anytime/anytime`,
+  const fetchFlightsByCityId = async (cityId) => {
+    const options = {
+      method: 'GET',
+      url: 'https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/SE/SEK/SE/SE-sky/LOND-sky/anytime/anytime',
       headers: {
-        "x-rapidapi-host":
-          "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-        "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
-      },
+        'x-rapidapi-host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
+        'x-rapidapi-key': 'cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77'
+      }
     };
-
-    const request = await axios
-      .request(options)
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+    
+    axios.request(options).then((response) => {
+      console.log(response.data);
+    }).catch(function (error) {
+      console.error(error);
+    });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(selectAirport);
-    fetchFlightsByAirport(selectAirport);
-  };
-
+  
   useEffect(() => {
     fetchAirportsByCity(city);
   }, []);
@@ -65,21 +57,6 @@ const Skyscannerapi = () => {
   return (
     <div>
       <h1> SkyScanner-API:</h1>
-      <h3>Välj till vilken flygplats du vill resa till </h3>
-      <form onSubmit={handleSubmit}>
-        <select
-          name="airport"
-          id="airport"
-          onChange={(e) => setSelectAirport(e.target.value)}
-        >
-          {airPorts.map((airport) => (
-            <option key={airport.PlaceId} value={airport.PlaceId}>
-              {airport.PlaceName}
-            </option>
-          ))}
-        </select>
-        <button>Välj</button>
-      </form>
     </div>
   );
 };
