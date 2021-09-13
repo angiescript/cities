@@ -42,7 +42,7 @@ const Skyscannerapi = () => {
       }
     };
     
-    axios.request(options).then((response) => {
+    const request = await axios.request(options).then((response) => {
       console.log(response.data);
     }).catch(function (error) {
       console.error(error);
