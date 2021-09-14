@@ -48,9 +48,9 @@ const Citypage = () => {
             </div>
           </div>
           <button onClick={() => history.push("/")}>Back</button>
-        <Skyscannerapi /> 
         </div>
       </div>
+        <Skyscannerapi /> 
     </div>
   );
 };

@@ -30,7 +30,7 @@ const Homepage = () => {
       .request(options)
       .then((response) => {
         setCities(response.data.data);
-        console.log(response.data.data);
+        // console.log(response.data.data);
         return request;
       })
       .catch(function (error) {
