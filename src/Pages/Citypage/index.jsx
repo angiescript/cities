@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./index.module.scss";
 import { useHistory, useParams } from "react-router-dom";
+import Weather from "../../components/Weather";
 
 const Citypage = () => {
   const capitalizeFirstLetter = (string) => {
@@ -19,7 +20,7 @@ const Citypage = () => {
           <div>
             <img src="https://via.placeholder.com/500x200" alt="" />
           </div>
-
+          <Weather query={cityName} />
           <div className={styles.cityInfo}>
             <h1>{cityName}</h1>
             <h2>{cityHeading}</h2>
