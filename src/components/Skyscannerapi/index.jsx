@@ -11,9 +11,7 @@ const Skyscannerapi = () => {
 
   // Fetch request with "searchTerm (london)", to access 'cityId'
   const fetchAirportsByCity = async (city) => {
-    const options = {
-      method: "GET",
-      url: "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/SE/SEK/SE/",
+    const config = {
       params: { query: `${city}` },
       headers: {
         "x-rapidapi-host":
@@ -23,10 +21,13 @@ const Skyscannerapi = () => {
     };
 
     const request = await axios
-      .request(options)
+      .get(
+        "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/SE/SEK/SE/",
+        config
+      )
       .then((response) => {
-        // console.table(response.data.Places); // Airports in with term "london"
-        // console.log(response.data.Places[0].CityId); // first object is "CityId"
+        console.table(response.data.Places); // Airports in with searchterm "city"
+        console.log(response.data.Places[0].CityId); // first object contains "CityId"
         fetchFlightsByCityId(response.data.Places[0].CityId);
       })
       .catch(function (error) {
@@ -36,9 +37,7 @@ const Skyscannerapi = () => {
 
   // Fetch request with 'cityId', to search flights including all airports in london
   const fetchFlightsByCityId = async (cityId) => {
-    const options = {
-      method: "GET",
-      url: `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/SE/SEK/SE/SE-sky/${cityId}/anytime`,
+    const config = {
       headers: {
         "x-rapidapi-host":
           "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
@@ -47,9 +46,12 @@ const Skyscannerapi = () => {
     };
 
     const request = await axios
-      .request(options)
+      .get(
+        `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/SE/SEK/SE/SE-sky/${cityId}/anytime`,
+        config
+      )
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setFlightData(response.data);
         setQuotes(response.data.Quotes);
       })
@@ -64,34 +66,47 @@ const Skyscannerapi = () => {
 
   return (
     <div className={styles.widgetContainer}>
-      <h2>
-        Billigaste flygbiljetterna från alla flygplatser i Sverige till alla
-        flygplatser i {city}!
-      </h2>
+      <h2>Hitta de billigaste flygbiljetterna!</h2>
+      <h3>Från alla flygplatser i Sverige till alla flygplatser i {city}</h3>
+      <div className={styles.contentWrapper}>
+      <div className={styles.tableDiv}>
       <table>
         <thead>
-        <tr>
-          <th>Från</th>
-          <th>Till</th>
-          <th>Pris</th>
-          <th>Avgångsdatum</th>
-        </tr>
+          <tr>
+            <th>Från</th>
+            <th>Till</th>
+            <th>Pris</th>
+            <th>Direktflyg</th>
+            <th>Avgångsdatum</th>
+          </tr>
         </thead>
         <tbody>
-        {quotes.map((dest) => (
-          <tr className={styles.flights} key={dest.QuoteId}>
-            <td>{dest.OutboundLeg.OriginId}</td>
-            <td>{dest.OutboundLeg.DestinationId}</td>
-            <td>{dest.MinPrice} :-</td>
-            <td>{dest.OutboundLeg.DepartureDate}</td>
-          </tr>
-        ))}
+          {quotes.map((dest) => {
+            let departureFromAirport = flightData.Places.find(
+              (place) => dest.OutboundLeg.OriginId === place.PlaceId
+            ).Name;
+            let arriveToAirport = flightData.Places.find(
+              (place) => dest.OutboundLeg.DestinationId === place.PlaceId
+            ).Name;
+            let departureDate = dest.OutboundLeg.DepartureDate.slice(0, 10);
+            return (
+              <tr className={styles.flights} key={dest.QuoteId}>
+                <td>{departureFromAirport}</td>
+                <td>{arriveToAirport}</td>
+                <td>{dest.MinPrice} :-</td>
+                <td>Nej</td>
+                <td>{departureDate}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
+      </div>
       <iframe
         src="https://widgets.skyscanner.net/widget-server/widgets/iframe?skyscannerWidget=FlightSearchWidget&associateId=ABBBCCC&locale=sv-SE&market=SE&currency=SEK&directFlights=true"
         title="widget"
-      ></iframe>{" "}
+      ></iframe>
+    </div>
     </div>
   );
 };
