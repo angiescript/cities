@@ -23,8 +23,9 @@ const Skyscannerapi = () => {
       .request(options)
       .then((response) => {
         setCityId(response.data.Places[0].CityId);
-        console.log(cityId);
+        console.log(response.data.Places[0].CityId);
         fetchFlightsByCityId(cityId)
+        return request;
 
       })
       .catch(function (error) {
