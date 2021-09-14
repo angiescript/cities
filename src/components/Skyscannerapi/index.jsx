@@ -11,6 +11,8 @@ const Skyscannerapi = () => {
 
   // Fetch request with "searchTerm (london)", to access 'cityId'
   const fetchAirportsByCity = async (city) => {
+
+
     const config = {
       params: { query: `${city}` },
       headers: {
@@ -46,12 +48,10 @@ const Skyscannerapi = () => {
     };
 
     const request = await axios
-      .get(
-        `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/SE/SEK/SE/SE-sky/${cityId}/anytime`,
-        config
-      )
-      .then((response) => {
-        // console.log(response.data);
+      .get(`https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/SE/SEK/SE/SE-sky/${cityId}/anytime`,
+        config)
+        .then((response) => {
+        console.log(response.data);
         setFlightData(response.data);
         setQuotes(response.data.Quotes);
       })
@@ -82,19 +82,19 @@ const Skyscannerapi = () => {
         </thead>
         <tbody>
           {quotes.map((dest) => {
-            let departureFromAirport = flightData.Places.find(
-              (place) => dest.OutboundLeg.OriginId === place.PlaceId
-            ).Name;
-            let arriveToAirport = flightData.Places.find(
-              (place) => dest.OutboundLeg.DestinationId === place.PlaceId
-            ).Name;
+            let departureFromAirport = flightData.Places.find((place) => dest.OutboundLeg.OriginId === place.PlaceId).Name;
+            let arriveToAirport = flightData.Places.find((place) => dest.OutboundLeg.DestinationId === place.PlaceId).Name;
             let departureDate = dest.OutboundLeg.DepartureDate.slice(0, 10);
+            let direct = "";
+
+            if ( dest.Direct == true ? direct ="Ja" : direct="Nej")
+          
             return (
               <tr className={styles.flights} key={dest.QuoteId}>
                 <td>{departureFromAirport}</td>
                 <td>{arriveToAirport}</td>
                 <td>{dest.MinPrice} :-</td>
-                <td>Nej</td>
+                <td>{direct}</td>
                 <td>{departureDate}</td>
               </tr>
             );
