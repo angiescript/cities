@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./index.module.scss";
 import { useHistory, useParams } from "react-router-dom";
+import Weather from "../../components/Weather";
 
-const Citypage = () => {
+const Citypage = (cityInfo) => {
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -12,6 +13,10 @@ const Citypage = () => {
   let cityDescription =
     "Paris, nicknamed the City of Light, is the capital city of France, and the largest city in France. The area is 105 square kilometres (41 square miles), and around 2.15 million people live there. If suburbs are counted, the population of the Paris area rises to 12 million people.The Seine river runs through the oldest part of Paris, and divides it into two parts, known as the Left Bank and the Right Bank. It is surrounded by many forests.";
 
+  const lat = cityInfo.latitude;
+
+  console.log(cityInfo);
+
   return (
     <div className={styles.main}>
       <div className={styles.paper}>
@@ -19,7 +24,7 @@ const Citypage = () => {
           <div>
             <img src="https://via.placeholder.com/500x200" alt="" />
           </div>
-
+          {/* <Weather query={cityName} /> */}
           <div className={styles.cityInfo}>
             <h1>{cityName}</h1>
             <h2>{cityHeading}</h2>
