@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./index.module.scss";
-import { Link, useHistory, useParams } from "react-router-dom";
+import {Link, useHistory, useParams } from "react-router-dom";
+import Currency from "../../components/Currency";
 import Weather from "../../components/Weather";
 
 const Citypage = ({ cityInfo }) => {
@@ -29,7 +30,8 @@ const Citypage = ({ cityInfo }) => {
             <h2>{cityHeading}</h2>
             <p>{cityDescription}</p>
           </div>
-
+          <Currency cityInfo={cityInfo}/>
+          <h2>What do you want to know more about?</h2>
           <div className={styles.additionalInfoBanner}>
             <h2>More information about {cityName}</h2>
             <div className={styles.infoBoxes}>
