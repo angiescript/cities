@@ -5,7 +5,7 @@ import styles from "./index.module.scss";
 import { useParams } from "react-router-dom";
 
 const Currency = (cityInfo) => {
-  const country = cityInfo.cityInfo.cityInfo.country;
+  const country = cityInfo.cityInfo.country;
   const apiKey = "9b0a137f140b003ece5560ee";
   const baseCurrency = "SEK";
   const [countryCurrency, setCountryCurrency] = useState("");
