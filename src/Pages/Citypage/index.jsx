@@ -4,8 +4,11 @@ import { useHistory, useParams } from "react-router-dom";
 import Currency from "../../components/Currency";
 
 const Citypage = () => {
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
   const history = useHistory();
-  const cityName = useParams().query;
+  const cityName = capitalizeFirstLetter(useParams().query);
   let cityHeading = "Romance in the City of Lights";
   let cityDescription =
     "Paris, nicknamed the City of Light, is the capital city of France, and the largest city in France. The area is 105 square kilometres (41 square miles), and around 2.15 million people live there. If suburbs are counted, the population of the Paris area rises to 12 million people.The Seine river runs through the oldest part of Paris, and divides it into two parts, known as the Left Bank and the Right Bank. It is surrounded by many forests.";

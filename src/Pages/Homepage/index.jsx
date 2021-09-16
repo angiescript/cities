@@ -2,15 +2,15 @@ import axios from "axios";
 import { useState } from "react";
 import React from "react";
 import styles from "./index.module.scss";
+import { useHistory } from "react-router-dom";
 
 
 const Homepage = () => {
-
+  const history = useHistory();
   const [cities, setCities] = useState([]);
   const [term, setTerm] = useState("");
-
+  const apiKey = "5ae2e3f221c38a28845f05b6196740bc06611b2480aad45795c80cd7";
   const fetchData = async (query) => {
-    
     var options = {
       method: "GET",
       url: "https://wft-geo-db.p.rapidapi.com/v1/geo/cities",
@@ -19,6 +19,7 @@ const Homepage = () => {
         namePrefix: `${query}`,
         sort: "-population ",
         languageCode: "en",
+        types: "CITY",
       },
       headers: {
         "x-rapidapi-host": "wft-geo-db.p.rapidapi.com",
@@ -38,11 +39,11 @@ const Homepage = () => {
       });
   };
 
-  
   const handleSubmit = (e) => {
     e.preventDefault();
     fetchData(term);
     console.log(term);
+    history.push(term);
   };
 
   return (
