@@ -30,26 +30,28 @@ const Citypage = ({ cityInfo }) => {
             <p>{cityDescription}</p>
           </div>
 
-          <h2>What do you want to know more about?</h2>
           <div className={styles.additionalInfoBanner}>
-            <div className={styles.weatherInfo} onClick={() => setWeatherOpen(!weatherOpen)}>
-              <img src={`http://openweathermap.org/img/wn/01d.png`} alt="" />
-              <h3>Weather in {cityName}</h3>
-              <p>Click here to see upcoming weather forecasts for {cityName}.</p>
-            </div>
+            <h2>More information about {cityName}</h2>
+            <div className={styles.infoBoxes}>
+              <div className={styles.weatherInfo} onClick={() => setWeatherOpen(!weatherOpen)}>
+                <img src={`http://openweathermap.org/img/wn/01d.png`} alt="" />
+                <h3>Weather in {cityName}</h3>
+                <p>Click here to see upcoming weather forecasts for {cityName}.</p>
+              </div>
 
-            <div className={styles.sightsInfo}>
-              <img src="https://via.placeholder.com/50x50" alt="" />
-              <Link to={`/${cityName}/sights`}>
-                <button>Sights in {cityName}</button>
-              </Link>
-            </div>
+              <div className={styles.sightsInfo}>
+                <img src="https://via.placeholder.com/50x50" alt="" />
+                <Link to={`/${cityName}/sights`}>
+                  <button>Sights in {cityName}</button>
+                </Link>
+              </div>
 
-            <div className={styles.flightsInfo}>
-              <img src="https://via.placeholder.com/50x50" alt="" />
-              <Link to={`/${cityName}/flights`}>
-                <button>Flights to {cityName}</button>
-              </Link>
+              <div className={styles.flightsInfo}>
+                <img src="https://via.placeholder.com/50x50" alt="" />
+                <Link to={`/${cityName}/flights`}>
+                  <button>Flights to {cityName}</button>
+                </Link>
+              </div>
             </div>
           </div>
           <button onClick={() => history.push("/")}>Back</button>
