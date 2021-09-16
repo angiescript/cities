@@ -2,15 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 
-const Weather = (query) => {
-  const lat = "-16.919124";
-  const lon = "145.778032";
+const Weather = ({ query, lon, lat, open }) => {
   const apiKey = "b3445262319771d29d98e56a041cf9dc";
   const [results, setResults] = useState();
   const [currentTime, setCurrentTime] = useState();
   const [sunrise, setSunrise] = useState([]);
   const [sunset, setSunset] = useState([]);
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(1);
   const [currentTemp, setCurrentTemp] = useState();
   const [currentIcon, setCurrentIcon] = useState();
   const [dailyData, setDailyData] = useState();
@@ -20,7 +18,6 @@ const Weather = (query) => {
       const result = await axios.get(
         `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`
       );
-      console.log(result.data);
       setResults(result.data);
       setOffset(result.data.timezone_offset + new Date().getTimezoneOffset() * 60);
       setCurrentTemp(Math.round(result.data.current.temp));
@@ -30,9 +27,6 @@ const Weather = (query) => {
     getData();
   }, []);
 
-  const log = () => {
-    processDailyData();
-  };
   useEffect(() => {
     const updateTime = () => {
       const newTime = new Date(new Date().getTime() + offset * 1000);
@@ -42,15 +36,19 @@ const Weather = (query) => {
       }, 1000);
     };
 
-    if (offset !== 0) {
-      setSunset([
-        new Date(results.current.sunset * 1000 + offset * 1000).getHours(),
-        new Date(results.current.sunset * 1000 + offset * 1000).getMinutes(),
-      ]);
-      setSunrise([
-        new Date(results.current.sunrise * 1000 + offset * 1000).getHours(),
-        new Date(results.current.sunrise * 1000 + offset * 1000).getMinutes(),
-      ]);
+    if (offset !== 1) {
+      setSunset(
+        new Date(results.current.sunset * 1000 + offset * 1000).toLocaleTimeString(["en-GB"], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      );
+      setSunrise(
+        new Date(results.current.sunrise * 1000 + offset * 1000).toLocaleTimeString(["en-GB"], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      );
 
       updateTime();
     }
@@ -65,34 +63,43 @@ const Weather = (query) => {
     const temp = Math.round(day.temp.day);
     return (
       <div key={day.dt}>
-        <p>
+        <span>
           {weekday} {temp} C{" "}
           <img src={`http://openweathermap.org/img/wn/${icon !== undefined ? icon : "01d"}.png`} alt="weather icon" />
-        </p>
+        </span>
       </div>
     );
   };
 
+  if (!open) return <> </>;
+
+  if (lat === undefined || lon === undefined)
+    return (
+      <div className={styles.main}>
+        <div className={styles.paper}>
+          <h3 className={styles.undefined}>No weatherdata available</h3>
+          <p>Please go back and search again...</p>
+        </div>
+      </div>
+    );
+
   return (
     <div className={styles.main}>
-      <h3>Weather in {query.query}</h3>
-      {/* <button onClick={log}>Log</button> */}
-      <p>
-        Local time in {query.query}: {currentTime}
-      </p>
-      <p>
-        Sunrise: {sunrise[0]}:{sunrise[1]}
-      </p>
-      <p>
-        Sunset: {sunset[0]}:{sunset[1]}
-      </p>
-      <p>
-        Current temperature: {currentTemp} C{" "}
-        <img src={`http://openweathermap.org/img/wn/${currentIcon}.png`} alt="weather icon" />
-      </p>
-      <div>
-        <span>Forecast:</span>
-        {!!dailyData && dailyData.map((day) => processDailyData(day))}
+      <div className={styles.paper}>
+        <h3>Weather in {query}</h3>
+        <p>
+          Local time in {query}: {currentTime}
+        </p>
+        <p>Sunrise: {sunrise}</p>
+        <p>Sunset: {sunset}</p>
+        <span>
+          Temperature: {currentTemp} C{" "}
+          <img src={`http://openweathermap.org/img/wn/${currentIcon}.png`} alt="weather icon" />
+        </span>
+        <div className={styles.forecast}>
+          <h4>Forecast:</h4>
+          {!!dailyData && dailyData.map((day) => processDailyData(day))}
+        </div>
       </div>
     </div>
   );
