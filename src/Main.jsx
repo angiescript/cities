@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import Citypage from "./Pages/Citypage";
 import Homepage from "./Pages/Homepage";
 import Sightspage from "./Pages/Sightspage";
+import Flightspage from "./Pages/Flightspage";
 
 const Main = () => {
   const [cityInfo, setCityInfo] = useState({});
@@ -16,6 +17,9 @@ const Main = () => {
       </Route>
       <Route path="/:query/sights">
         <Sightspage />
+      </Route>
+      <Route path="/:query/flights">
+        <Flightspage />
       </Route>
     </div>
   );

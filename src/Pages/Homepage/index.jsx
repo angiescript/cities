@@ -32,6 +32,7 @@ const Homepage = (setCityInfo) => {
         setCities(response.data.data);
         console.log(response.data.data);
         setCityInfo.setCityInfo(response.data.data[0]);
+        // console.log(response.data.data);
         return request;
       })
       .catch(function (error) {

@@ -54,7 +54,7 @@ const Citypage = (cityInfo) => {
           <button onClick={() => history.push("/")}>Back</button>
         </div>
       </div>
-    </div>
+   </div>
   );
 };
 
