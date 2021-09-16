@@ -4,7 +4,7 @@ import React from "react";
 import styles from "./index.module.scss";
 import { useHistory } from "react-router-dom";
 
-const Homepage = (setCityInfo) => {
+const Homepage = ({setCityInfo}) => {
   const history = useHistory();
   const [cities, setCities] = useState([]);
   const [term, setTerm] = useState("");
@@ -31,7 +31,7 @@ const Homepage = (setCityInfo) => {
       .then((response) => {
         setCities(response.data.data);
         console.log(response.data.data);
-        setCityInfo.setCityInfo(response.data.data[0]);
+        setCityInfo(response.data.data[0]);
         // console.log(response.data.data);
         return request;
       })

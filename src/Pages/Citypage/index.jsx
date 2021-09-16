@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./index.module.scss";
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import Weather from "../../components/Weather";
 
 const Citypage = (cityInfo) => {
@@ -35,26 +35,27 @@ const Citypage = (cityInfo) => {
           <div className={styles.additionalInfoBanner}>
             <div className={styles.weatherInfo}>
               <img src="https://via.placeholder.com/50x50" alt="" />
-              <h3>Weather in {cityName}</h3>
-              <p>Click here to see upcoming weather forecasts for {cityName}.</p>
+              <button>Weather in {cityName}</button>
             </div>
 
             <div className={styles.sightsInfo}>
               <img src="https://via.placeholder.com/50x50" alt="" />
-              <h3>Sights in {cityName}</h3>
-              <p>Click here to read more about sights in {cityName}.</p>
+              <Link to={`/${cityName}/sights`}>
+                <button>Sights in {cityName}</button>
+              </Link>
             </div>
 
             <div className={styles.flightsInfo}>
               <img src="https://via.placeholder.com/50x50" alt="" />
-              <h3>Flights to {cityName}</h3>
-              <p>Click here to find your flight to {cityName}.</p>
+              <Link to={`/${cityName}/flights`}>
+                <button>Flights to {cityName}</button>
+              </Link>
             </div>
           </div>
           <button onClick={() => history.push("/")}>Back</button>
         </div>
       </div>
-   </div>
+    </div>
   );
 };
 
