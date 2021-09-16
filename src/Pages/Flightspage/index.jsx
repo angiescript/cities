@@ -3,8 +3,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 
-const Skyscannerapi = () => {
-  const city = "New York";
+const Skyscannerapi = ({ cityInfo }) => {
+  const city = cityInfo.city;
 
   const [quotes, setQuotes] = useState([]);
   const [flightData, setFlightData] = useState([]);
