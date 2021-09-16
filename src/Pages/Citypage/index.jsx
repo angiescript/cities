@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./index.module.scss";
 import { useHistory, useParams } from "react-router-dom";
+import Currency from "../../components/Currency";
 
 const Citypage = () => {
   const history = useHistory();
@@ -22,7 +23,7 @@ const Citypage = () => {
             <h2>{cityHeading}</h2>
             <p>{cityDescription}</p>
           </div>
-
+          <Currency/>
           <h2>What do you want to know more about?</h2>
           <div className={styles.additionalInfoBanner}>
             <div className={styles.weatherInfo}>
