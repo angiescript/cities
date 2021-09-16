@@ -31,7 +31,7 @@ const Citypage = (cityInfo) => {
             <h2>{cityHeading}</h2>
             <p>{cityDescription}</p>
           </div>
-          <Currency/>
+          <Currency cityInfo={cityInfo}/>
           <h2>What do you want to know more about?</h2>
           <div className={styles.additionalInfoBanner}>
             <div className={styles.weatherInfo}>
