@@ -9,6 +9,7 @@ const Currency = (cityInfo) => {
   const apiKey = "9b0a137f140b003ece5560ee";
   const baseCurrency = "SEK";
   const [countryCurrency, setCountryCurrency] = useState("");
+  const [currencySymbol, setCurrencySymbol] = useState("");
   const [conRate, setConRate] = useState(0);
   const [amount, setAmount] = useState("");
   const [currencyList, setCurrencyList] = useState([]);
@@ -34,7 +35,8 @@ const Currency = (cityInfo) => {
         
         setCountryCurrency(countryResult.data[0].currencies[0].code);
         setSelectedCurrency(countryResult.data[0].currencies[0].code);
-        console.log(countryResult.data[0].currencies[0].code);
+        setCurrencySymbol(countryResult.data[0].currencies[0].symbol)
+        console.log(countryResult.data[0].currencies[0]);
         
         setCurrencyList([countryResult.data[0].currencies[0].code, ...Object.keys(result.data.conversion_rates)]);
         
@@ -64,6 +66,7 @@ const Currency = (cityInfo) => {
     console.log(e.target.value);
     setAmount(Number(e.target.value))
     let calc = e.target.value * currentRate;
+    calc = calc.toFixed(2)
     setCalculatedAmount(calc);
     
   };
@@ -78,8 +81,8 @@ const Currency = (cityInfo) => {
 
   return (
     <div className={styles.exchangeDiv}>
-      change from{" "}
-      <form>
+      <h2>Change from{" "}</h2>
+      <form className={styles.exchangeForm}>
         <input
           type="text"
           placeholder="amount"
@@ -96,7 +99,7 @@ const Currency = (cityInfo) => {
         ))}
       </select>
       </form>
-      <p>{calculatedAmount}</p>
+      <div className={styles.exchangeSum}>{calculatedAmount}{" "}{" "}{currencySymbol}</div>
     </div>
   );
 };
