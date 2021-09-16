@@ -4,8 +4,7 @@ import React from "react";
 import styles from "./index.module.scss";
 import { useHistory } from "react-router-dom";
 
-
-const Homepage = () => {
+const Homepage = (setCityInfo) => {
   const history = useHistory();
   const [cities, setCities] = useState([]);
   const [term, setTerm] = useState("");
@@ -32,6 +31,7 @@ const Homepage = () => {
       .then((response) => {
         setCities(response.data.data);
         console.log(response.data.data);
+        setCityInfo.setCityInfo(response.data.data[0]);
         return request;
       })
       .catch(function (error) {
@@ -39,9 +39,9 @@ const Homepage = () => {
       });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    fetchData(term);
+    await fetchData(term);
     console.log(term);
     history.push(term);
   };
