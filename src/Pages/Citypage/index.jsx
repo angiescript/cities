@@ -3,7 +3,7 @@ import styles from "./index.module.scss";
 import { Link, useHistory, useParams } from "react-router-dom";
 import Weather from "../../components/Weather";
 
-const Citypage = (cityInfo) => {
+const Citypage = ({cityInfo}) => {
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };

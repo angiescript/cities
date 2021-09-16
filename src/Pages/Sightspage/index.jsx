@@ -3,9 +3,14 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import styles from "./index.module.scss";
 
-const Sightspage = () => {
-  const [lon, setLon] = useState(18.06871);
-  const [lat, setlat] = useState(59.32938);
+const Sightspage = ({ cityInfo }) => {
+
+  // const [lon, setLon] = useState(18.06871);
+  // const [lat, setlat] = useState(59.32938);
+
+  const lon = cityInfo.longitude; 
+  const lat = cityInfo.latitude;
+  
   const [allSights, setallSights] = useState([]);
   const [fullSightsInfo, setfullSightsInfo] = useState([]);
 

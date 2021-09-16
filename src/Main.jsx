@@ -16,10 +16,10 @@ const Main = () => {
         <Citypage cityInfo={cityInfo} />
       </Route>
       <Route path="/:query/sights">
-        <Sightspage />
+        <Sightspage cityInfo={cityInfo} />
       </Route>
       <Route path="/:query/flights">
-        <Flightspage />
+        <Flightspage cityInfo={cityInfo} />
       </Route>
     </div>
   );
