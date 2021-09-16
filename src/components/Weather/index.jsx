@@ -66,7 +66,8 @@ const Weather = (query) => {
     return (
       <div key={day.dt}>
         <p>
-          {weekday} {temp} C <img src={`http://openweathermap.org/img/wn/${icon}.png`} alt="weather icon" />
+          {weekday} {temp} C{" "}
+          <img src={`http://openweathermap.org/img/wn/${icon !== undefined ? icon : "01d"}.png`} alt="weather icon" />
         </p>
       </div>
     );
@@ -74,8 +75,8 @@ const Weather = (query) => {
 
   return (
     <div className={styles.main}>
-      Weather
-      <button onClick={log}>Log</button>
+      <h3>Weather in {query.query}</h3>
+      {/* <button onClick={log}>Log</button> */}
       <p>
         Local time in {query.query}: {currentTime}
       </p>
