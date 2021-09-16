@@ -49,34 +49,60 @@ $textColor: rgb(68, 68, 68);
   }
 
   table {
+    border-collapse: separate;
+    border-spacing: 0 1em;
     -webkit-text-stroke-width: thin;
     color: $textColor;
     width: 100%;
     padding: 20px;
-    background-color: white;
+    background-color: rgb(245, 245, 245);
     border-radius: 5px;
     padding: 15px;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     font-size: 18px;
     text-align: left;
 
+
+    
+
     tr th {
       font-size: 18px;
       color: $textColor;
       border-bottom: solid black 1px;
     }
-    td {
-      padding: 3px;
+
+    tbody tr {
+      
+      background-color: rgb(255, 255, 255);
+      height: 3.5rem;
+      border-radius: 10px;
+      border: none;
+      margin-bottom: 10px;
+      
+      &:hover{
+        transform: scale(1.02);
+        cursor: pointer;
+      }
     }
-    .flights:nth-child(even) {
-      background-color: rgba(202, 216, 255, 0.753);
+
+  
+    tr td {
+      margin: 5px 10px 5px 10px;
+      padding: 10px;
     }
+    
+    .price {
+      font-weight: 500;
+      color: rgb(62, 129, 253);
+    }
+
+
   }
 }
 
 .tableDiv {
   width: 100%;
-  max-height: 450px;
+  max-height: 480px;
   overflow: auto;
   scroll-behavior: smooth;
   box-shadow: $boxShadow;

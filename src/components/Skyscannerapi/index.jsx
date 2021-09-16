@@ -4,15 +4,14 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 
 const Skyscannerapi = () => {
-  const city = "London";
+  const city = "New York";
 
   const [quotes, setQuotes] = useState([]);
   const [flightData, setFlightData] = useState([]);
+  const [airports, setAirports] = useState([]);
 
   // Fetch request with "searchTerm (london)", to access 'cityId'
   const fetchAirportsByCity = async (city) => {
-
-
     const config = {
       params: { query: `${city}` },
       headers: {
@@ -22,14 +21,15 @@ const Skyscannerapi = () => {
       },
     };
 
-    const request = await axios
+    await axios
       .get(
         "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/SE/SEK/SE/",
         config
       )
       .then((response) => {
         console.table(response.data.Places); // Airports in with searchterm "city"
-        console.log(response.data.Places[0].CityId); // first object contains "CityId"
+        console.log(response.data.Places[0].CityId); // First object contains "Overall-CityId" - too include all airports
+        setAirports(response.data.Places);
         fetchFlightsByCityId(response.data.Places[0].CityId);
       })
       .catch(function (error) {
@@ -47,10 +47,12 @@ const Skyscannerapi = () => {
       },
     };
 
-    const request = await axios
-      .get(`https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/SE/SEK/SE/SE-sky/${cityId}/anytime`,
-        config)
-        .then((response) => {
+    await axios
+      .get(
+        `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/SE/SEK/SE/SE-sky/${cityId}/anytime`,
+        config
+      )
+      .then((response) => {
         console.log(response.data);
         setFlightData(response.data);
         setQuotes(response.data.Quotes);
@@ -67,46 +69,49 @@ const Skyscannerapi = () => {
   return (
     <div className={styles.widgetContainer}>
       <h2>Hitta de billigaste flygbiljetterna!</h2>
-      <h3>Från alla flygplatser i Sverige till alla flygplatser i {city}</h3>
+      <h3>På alla flygplatser i Sverige till alla flygplatser i {city}</h3>
       <div className={styles.contentWrapper}>
-      <div className={styles.tableDiv}>
-      <table>
-        <thead>
-          <tr>
-            <th>Från</th>
-            <th>Till</th>
-            <th>Pris</th>
-            <th>Direktflyg</th>
-            <th>Avgångsdatum</th>
-          </tr>
-        </thead>
-        <tbody>
-          {quotes.map((dest) => {
-            let departureFromAirport = flightData.Places.find((place) => dest.OutboundLeg.OriginId === place.PlaceId).Name;
-            let arriveToAirport = flightData.Places.find((place) => dest.OutboundLeg.DestinationId === place.PlaceId).Name;
-            let departureDate = dest.OutboundLeg.DepartureDate.slice(0, 10);
-            let direct = "";
-
-            if ( dest.Direct == true ? direct ="Ja" : direct="Nej")
-          
-            return (
-              <tr className={styles.flights} key={dest.QuoteId}>
-                <td>{departureFromAirport}</td>
-                <td>{arriveToAirport}</td>
-                <td>{dest.MinPrice} :-</td>
-                <td>{direct}</td>
-                <td>{departureDate}</td>
+        <div className={styles.tableDiv}>
+          <table>
+            <thead>
+              <tr>
+                <th>Från</th>
+                <th>Till</th>
+                <th>Pris</th>
+                <th>Direktflyg</th>
+                <th>Avgångsdatum</th>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {quotes.map((dest) => {
+                let departureFromAirport = flightData.Places.find(
+                  (place) => dest.OutboundLeg.OriginId === place.PlaceId
+                ).Name;
+                let arriveToAirport = flightData.Places.find(
+                  (place) => dest.OutboundLeg.DestinationId === place.PlaceId
+                ).Name;
+                let departureDate = dest.OutboundLeg.DepartureDate.slice(0, 10);
+                let direct = "";
+
+                if (dest.Direct === true ? (direct = "Ja") : (direct = "Nej"))
+                  return (
+                    <tr className={styles.flights} key={dest.QuoteId}>
+                      <td className={styles.from}>{departureFromAirport}</td>
+                      <td className={styles.to}>{arriveToAirport}</td>
+                      <td className={styles.price}>Från {dest.MinPrice} :-</td>
+                      <td>{direct}</td>
+                      <td>{departureDate}</td>
+                    </tr>
+                  );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <iframe
+          src="https://widgets.skyscanner.net/widget-server/widgets/iframe?skyscannerWidget=FlightSearchWidget&associateId=ABBBCCC&locale=sv-SE&market=SE&currency=SEK&directFlights=true"
+          title="widget"
+        ></iframe>
       </div>
-      <iframe
-        src="https://widgets.skyscanner.net/widget-server/widgets/iframe?skyscannerWidget=FlightSearchWidget&associateId=ABBBCCC&locale=sv-SE&market=SE&currency=SEK&directFlights=true"
-        title="widget"
-      ></iframe>
-    </div>
     </div>
   );
 };
