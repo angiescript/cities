@@ -3,6 +3,7 @@ import styles from "./index.module.scss";
 import { Link, useHistory, useParams } from "react-router-dom";
 import Currency from "../../components/Currency";
 import Weather from "../../components/Weather";
+import CityDescription from "../../components/CityDescription";
 
 const Citypage = ({ cityInfo }) => {
   const [weatherOpen, setWeatherOpen] = useState(false);
@@ -26,6 +27,7 @@ const Citypage = ({ cityInfo }) => {
           </div>
           <div className={styles.cityInfo}>
             <Weather query={cityName} lon={cityInfo.longitude} lat={cityInfo.latitude} open={weatherOpen} />
+            <CityDescription query= {cityName}/>
             <h1>{cityName}</h1>
             <h2>{cityHeading}</h2>
             <p>{cityDescription}</p>
