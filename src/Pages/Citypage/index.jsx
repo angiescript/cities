@@ -7,6 +7,7 @@ import CityDescription from "../../components/CityDescription";
 
 const Citypage = ({ cityInfo }) => {
   const [weatherOpen, setWeatherOpen] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -23,14 +24,14 @@ const Citypage = ({ cityInfo }) => {
       <div className={styles.paper}>
         <div className={styles.banner}>
           <div>
-            <img src="https://via.placeholder.com/500x200" alt="" />
+            <img src={imageUrl} alt="" />
           </div>
           <div className={styles.cityInfo}>
             <Weather query={cityName} lon={cityInfo.longitude} lat={cityInfo.latitude} open={weatherOpen} />
-            <CityDescription query= {cityName}/>
             <h1>{cityName}</h1>
-            <h2>{cityHeading}</h2>
-            <p>{cityDescription}</p>
+            {/* <h2>{cityHeading}</h2> */}
+            <CityDescription query={cityName} setImageUrl={setImageUrl} />
+            {/* <p>{cityDescription}</p> */}
           </div>
 
           <div className={styles.additionalInfoBanner}>
