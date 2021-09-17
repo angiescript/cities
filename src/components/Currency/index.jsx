@@ -4,12 +4,10 @@ import { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 import { useParams } from "react-router-dom";
 
-const Currency = (cityInfo) => {
-  const country = cityInfo.cityInfo.country;
+const Currency = ({cityInfo}) => {
+  const country = cityInfo.country;
   const apiKey = "9b0a137f140b003ece5560ee";
   const baseCurrency = "SEK";
-  const [countryCurrency, setCountryCurrency] = useState("");
-  const [currencySymbol, setCurrencySymbol] = useState("");
   const [conRate, setConRate] = useState(0);
   const [amount, setAmount] = useState("");
   const [currencyList, setCurrencyList] = useState([]);
@@ -28,21 +26,16 @@ const Currency = (cityInfo) => {
     console.log(result.data);
     
     
-    // const fetchCurrencyName = async () => {
       const countryResult = await axios(
         `https://restcountries.eu/rest/v2/name/${country}`
         );
-        
-        setCountryCurrency(countryResult.data[0].currencies[0].code);
         setSelectedCurrency(countryResult.data[0].currencies[0].code);
-        setCurrencySymbol(countryResult.data[0].currencies[0].symbol)
+        
         console.log(countryResult.data[0].currencies[0]);
         
         setCurrencyList([countryResult.data[0].currencies[0].code, ...Object.keys(result.data.conversion_rates)]);
         
       };
-  
-    //  fetchCurrencyName();
      fetchCurrency();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps 
@@ -63,7 +56,6 @@ const Currency = (cityInfo) => {
   const calculate = (e) => {
 
     e.preventDefault();
-    console.log(e.target.value);
     setAmount(Number(e.target.value))
     let calc = e.target.value * currentRate;
     calc = calc.toFixed(2)
@@ -99,7 +91,7 @@ const Currency = (cityInfo) => {
         ))}
       </select>
       </form>
-      <div className={styles.exchangeSum}>{calculatedAmount}{" "}{" "}{currencySymbol}</div>
+      <div className={styles.exchangeSum}>{calculatedAmount}{" "}{" "}{selectedCurrency}</div>
     </div>
   );
 };
