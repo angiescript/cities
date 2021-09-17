@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./index.module.scss";
-import {Link, useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import Currency from "../../components/Currency";
 import Weather from "../../components/Weather";
 
@@ -11,9 +11,9 @@ const Citypage = ({ cityInfo }) => {
   };
   const history = useHistory();
   const cityName = capitalizeFirstLetter(useParams().query);
-  let cityHeading = "Romance in the City of Lights";
+  let cityHeading = "Lorem ipsum dolor sit amet";
   let cityDescription =
-    "Paris, nicknamed the City of Light, is the capital city of France, and the largest city in France. The area is 105 square kilometres (41 square miles), and around 2.15 million people live there. If suburbs are counted, the population of the Paris area rises to 12 million people.The Seine river runs through the oldest part of Paris, and divides it into two parts, known as the Left Bank and the Right Bank. It is surrounded by many forests.";
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi viverra risus at metus accumsan eleifend. Nullam sit amet nulla in erat pulvinar luctus vitae eu lorem. Pellentesque nec ultricies nunc, vel efficitur lorem. Fusce facilisis velit id turpis mattis imperdiet vel ac dolor. Fusce quis venenatis erat. Etiam rutrum elementum.";
 
   console.log(cityInfo);
 
@@ -30,8 +30,7 @@ const Citypage = ({ cityInfo }) => {
             <h2>{cityHeading}</h2>
             <p>{cityDescription}</p>
           </div>
-          <Currency cityInfo={cityInfo}/>
-          <h2>What do you want to know more about?</h2>
+
           <div className={styles.additionalInfoBanner}>
             <h2>More information about {cityName}</h2>
             <div className={styles.infoBoxes}>
@@ -56,6 +55,7 @@ const Citypage = ({ cityInfo }) => {
               </div>
             </div>
           </div>
+          <Currency cityInfo={cityInfo} />
           <button onClick={() => history.push("/")}>Back</button>
         </div>
       </div>
