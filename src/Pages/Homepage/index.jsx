@@ -4,9 +4,7 @@ import { useHistory } from "react-router";
 import React from "react";
 import styles from "./index.module.scss";
 
-
 const Homepage = ({ setCityInfo }) => {
-
   const history = useHistory();
 
   const [cities, setCities] = useState([]);
@@ -33,8 +31,6 @@ const Homepage = ({ setCityInfo }) => {
       .request(options)
       .then((response) => {
         setCities(response.data.data);
-        console.log(response.data.data);
-        
       })
       .catch(function (error) {
         console.error(error);
@@ -43,13 +39,19 @@ const Homepage = ({ setCityInfo }) => {
 
   useEffect(() => {
     console.log(term);
-    if (term.length > 2) {
-      fetchData(term);
-    }
+
+    if (term.length > 1) {
+      const timeoutId = setTimeout(() => {
+        fetchData(term);
+        console.log("fetch-reqeust SENT");
+      }, 1000);
+      return () => clearTimeout(timeoutId);
+    } else return;
   }, [term]);
 
   const handleClick = (city) => {
     setCityInfo(city);
+    history.push(city.city);
     console.log(city);
   };
 
@@ -73,10 +75,16 @@ const Homepage = ({ setCityInfo }) => {
             <div className={styles.searchResults}>
               <ul>
                 {cities.map((city) => {
-                  if (cities.length > 0) {
+                  if (term < 1) {
+                    setCities([]);
+                    return;
+                  }
+
+                  if (cities.length >= 1) {
+                    console.log(cities.length);
                     return (
-                      <li key={city.id} onClick={() => handleClick(city)}> 
-                        {city.name} <span>({city.country})</span>
+                      <li key={city.id} onClick={() => handleClick(city)}>
+                        {city.name} <p>({city.country})</p>
                       </li>
                     );
                   }
