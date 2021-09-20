@@ -13,6 +13,7 @@ const Sightspage = ({ cityInfo }) => {
   
   const [allSights, setallSights] = useState([]);
   const [fullSightsInfo, setfullSightsInfo] = useState([]);
+  const [categoryOption, setCategoryOption] = useState("");
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -39,6 +40,13 @@ const Sightspage = ({ cityInfo }) => {
     );
     return setallSights(result.data);
   };
+
+  const handleChange = (event) => {
+    console.log(event.target.value);
+    setCategoryOption(event.target.value);
+
+    //call API with new category = option
+  }
 
   const fetchSightsID = async (xid) => {
     const result = await axios(
@@ -83,6 +91,17 @@ const Sightspage = ({ cityInfo }) => {
                 </div>
               );
             })}
+          </div>
+          <div className={styles.filterBox}>
+            <label for="cars">Category</label>
+            <br></br>
+            <select id="category" onChange={handleChange}>
+              <option value="sport">Sport</option>
+              <option value="tourist_facilities">Tourist Facilities</option>
+              <option value="accomodation">Accomodation</option>
+              <option value="amusements">Amusements</option>
+              <option value="interesting_sights">Common sights</option>
+            </select>
           </div>
           <button onClick={() => history.push(`/${cityName}`)}>
             Back to Overview
