@@ -1,14 +1,12 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import styles from "./index.module.scss";
-import { useHistory } from "react-router-dom";
 
-const Homepage = ({setCityInfo}) => {
-  const history = useHistory();
+const Homepage = ({ setCityInfo }) => {
   const [cities, setCities] = useState([]);
   const [term, setTerm] = useState("");
-  const apiKey = "5ae2e3f221c38a28845f05b6196740bc06611b2480aad45795c80cd7";
+
   const fetchData = async (query) => {
     var options = {
       method: "GET",
@@ -26,37 +24,35 @@ const Homepage = ({setCityInfo}) => {
       },
     };
 
-    const request = await axios
+    await axios
       .request(options)
       .then((response) => {
         setCities(response.data.data);
         console.log(response.data.data);
-        setCityInfo(response.data.data[0]);
-        // console.log(response.data.data);
-        return request;
+        // setCityInfo([]);
       })
       .catch(function (error) {
         console.error(error);
       });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await fetchData(term);
+  useEffect(() => {
     console.log(term);
-    history.push(term);
-  };
+    if (term.length > 2) {
+      fetchData(term);
+    }
+  }, [term]);
 
   return (
     <div className={styles.main}>
       <div className={styles.paper}>
         <div className={styles.banner}>
-          <img src="https://via.placeholder.com/250"></img>
+          <img src="https://via.placeholder.com/250" alt="placeholder" />
 
           <div>
             <h1>Cities!</h1>
             <p>A lot of cities. Great info.</p>
-            <form onSubmit={handleSubmit}>
+            <form>
               <input
                 type="text"
                 placeholder="Search for a city"
@@ -64,42 +60,56 @@ const Homepage = ({setCityInfo}) => {
                 onChange={(e) => setTerm(e.target.value)}
               />
             </form>
+            <div className={styles.searchResults}>
+              <ul>
+                {cities.map((city) => {
+                  if (cities.length > 0) {
+                    return (
+                      <li onClick={}> 
+                        {city.name} <span>({city.country})</span>
+                      </li>
+                    );
+                  }
+                })}
+              </ul>
+            </div>
           </div>
         </div>
         <div className={styles.featuredCity}>
-          <img src="https://via.placeholder.com/400x250"></img>
+          <img src="https://via.placeholder.com/400x250" alt="poster" />
           <div className={styles.featuredCityTextbox}>
             <h1>Featured city!</h1>
-            
+
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque labore facilis perferendis adipisci amet
-              expedita tempore sapiente accusamus incidunt ab voluptates commodi quis quos, nemo consequatur autem aut
-              fugiat est!
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
+              labore facilis perferendis adipisci amet expedita tempore sapiente
+              accusamus incidunt ab voluptates commodi quis quos, nemo
+              consequatur autem aut fugiat est!
             </p>
           </div>
         </div>
         <div className={styles.otherCities}>
           <div className={styles.otherCitiesHeader}>
             <h3>Other cities you might be interested in</h3>
-            
+
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos molestiae facilis voluptate aliquid
-              esse magni distinctio eveniet optio deleniti. Recusandae alias pariatur omnis natus distinctio optio
-              maxime facilis nostrum nulla?
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Dignissimos molestiae facilis voluptate aliquid esse magni
+              distinctio eveniet optio deleniti. Recusandae alias pariatur omnis
+              natus distinctio optio maxime facilis nostrum nulla?
             </p>
           </div>
           <div className={styles.otherCitiesThumbContainer}>
             <div className={styles.otherCitiesThumb}>
-              <img src="https://via.placeholder.com/100"></img> Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Non culpa voluptates iure illo fugiat nulla,
+              <img src="https://via.placeholder.com/100" alt="placeholder" />{" "}
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Non culpa
+              voluptates iure illo fugiat nulla,
             </div>
             <div className={styles.otherCitiesThumb}>
-              {" "}
-              <img src="https://via.placeholder.com/100"></img>
+              <img src="https://via.placeholder.com/100" alt="placeholder" />
             </div>
             <div className={styles.otherCitiesThumb}>
-              {" "}
-              <img src="https://via.placeholder.com/100"></img>
+              <img src="https://via.placeholder.com/100" alt="placeholder" />
             </div>
           </div>
         </div>
