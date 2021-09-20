@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router";
 import React from "react";
 import styles from "./index.module.scss";
+
 
 const Homepage = ({ setCityInfo }) => {
   const [cities, setCities] = useState([]);
@@ -29,7 +31,7 @@ const Homepage = ({ setCityInfo }) => {
       .then((response) => {
         setCities(response.data.data);
         console.log(response.data.data);
-        // setCityInfo([]);
+        
       })
       .catch(function (error) {
         console.error(error);
@@ -42,6 +44,11 @@ const Homepage = ({ setCityInfo }) => {
       fetchData(term);
     }
   }, [term]);
+
+  const handleClick = (city) => {
+    setCityInfo(city);
+    // history.push(city);
+  };
 
   return (
     <div className={styles.main}>
@@ -65,7 +72,7 @@ const Homepage = ({ setCityInfo }) => {
                 {cities.map((city) => {
                   if (cities.length > 0) {
                     return (
-                      <li onClick={}> 
+                      <li key={city.id} onClick={handleClick(city)}> 
                         {city.name} <span>({city.country})</span>
                       </li>
                     );
