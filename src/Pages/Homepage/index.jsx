@@ -6,6 +6,9 @@ import styles from "./index.module.scss";
 
 
 const Homepage = ({ setCityInfo }) => {
+
+  const history = useHistory();
+
   const [cities, setCities] = useState([]);
   const [term, setTerm] = useState("");
 
@@ -47,7 +50,7 @@ const Homepage = ({ setCityInfo }) => {
 
   const handleClick = (city) => {
     setCityInfo(city);
-    // history.push(city);
+    console.log(city);
   };
 
   return (
@@ -72,7 +75,7 @@ const Homepage = ({ setCityInfo }) => {
                 {cities.map((city) => {
                   if (cities.length > 0) {
                     return (
-                      <li key={city.id} onClick={handleClick(city)}> 
+                      <li key={city.id} onClick={() => handleClick(city)}> 
                         {city.name} <span>({city.country})</span>
                       </li>
                     );
