@@ -21,8 +21,14 @@ border-radius: 5px 5px 5px 5px;
 .otherCities{
   margin-top: 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-around;
+  width: 600px;
+
+  .eachCity{
+
+  }
   .otherCitiesHeader{
     text-align: center;
     width: 50%;
