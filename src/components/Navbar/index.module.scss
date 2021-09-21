@@ -1,4 +1,14 @@
 .navbar {
   height: 40px;
   background-color: rgb(186, 219, 250);
+  
+  a:link{
+    text-decoration: none;
+    color: black;
+
+  }
+  button {
+    float: right;
+    margin-right: 10px;
+  }
 }
