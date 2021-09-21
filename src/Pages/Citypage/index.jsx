@@ -5,6 +5,7 @@ import Currency from "../../components/Currency";
 import Weather from "../../components/Weather";
 import CityDescription from "../../components/CityDescription";
 import CityImage from "../../components/CItyImage";
+import BackButton from "../../components/BackButton";
 
 const Citypage = ({ cityInfo }) => {
   const [weatherOpen, setWeatherOpen] = useState(false);
@@ -20,6 +21,7 @@ const Citypage = ({ cityInfo }) => {
     <div className={styles.main}>
       <div className={styles.paper}>
         <div className={styles.banner}>
+          <BackButton url={"/"} />
           <div>
             <CityImage query={cityName} />
           </div>

@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
+import BackButton from "../../components/BackButton";
 
 const Skyscannerapi = ({ cityInfo }) => {
   const city = cityInfo.city;
@@ -15,8 +16,7 @@ const Skyscannerapi = ({ cityInfo }) => {
     const config = {
       params: { query: `${city}` },
       headers: {
-        "x-rapidapi-host":
-          "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+        "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
         "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
       },
     };
@@ -41,8 +41,7 @@ const Skyscannerapi = ({ cityInfo }) => {
   const fetchFlightsByCityId = async (cityId) => {
     const config = {
       headers: {
-        "x-rapidapi-host":
-          "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+        "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
         "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
       },
     };
@@ -68,6 +67,7 @@ const Skyscannerapi = ({ cityInfo }) => {
 
   return (
     <div className={styles.widgetContainer}>
+      <BackButton url={`/${cityInfo.city}`} />
       <h2>Hitta de billigaste flygbiljetterna!</h2>
       <h3>På alla flygplatser i Sverige till alla flygplatser i {city}</h3>
       <div className={styles.contentWrapper}>
