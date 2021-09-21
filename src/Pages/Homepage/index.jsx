@@ -5,21 +5,15 @@ import styles from "./index.module.scss";
 import { useHistory, Link } from "react-router-dom";
 import cityArray from "./cityArray";
 
-const Homepage = ({setCityInfo}) => {
-  const index = useRef(0)
+const Homepage = ({ setCityInfo }) => {
+  const index = useRef(0);
   const randomCity = cityArray;
   const [randomCities, setRandomCities] = useState([]);
   const history = useHistory();
-
   const [cities, setCities] = useState([]);
   const [term, setTerm] = useState("");
   const [noCities, setNoCities] = useState(false);
 
-  const [randomCityArray, setRandomCityArray] = useState([]);
-  const apiKey = "5ae2e3f221c38a28845f05b6196740bc06611b2480aad45795c80cd7";
- 
- 
- 
   const fetchData = async (query) => {
     var options = {
       method: "GET",
@@ -41,6 +35,8 @@ const Homepage = ({setCityInfo}) => {
       .request(options)
       .then((response) => {
         setCities(response.data.data);
+        setCityInfo(response.data.data[0]);
+
         if (response.data.data.length > 0) {
           setNoCities(false);
         } else setNoCities(true);
@@ -85,16 +81,15 @@ const Homepage = ({setCityInfo}) => {
     });
   };
 
-
   useEffect(() => {
-    let array = []
+    let array = [];
     const fetchRandomcity = async (city) => {
       var options = {
         method: "GET",
         url: "https://wft-geo-db.p.rapidapi.com/v1/geo/cities",
         params: {
           minPopulation: "500",
-          namePrefix: city, 
+          namePrefix: city,
           sort: "-population ",
           languageCode: "en",
           types: "CITY",
@@ -105,35 +100,32 @@ const Homepage = ({setCityInfo}) => {
         },
       };
       const fetchCity = await axios
-      .request(options)
-      .then((response) => {
-      
-          console.log("testing")
-          array.push(response.data.data[0])
-          
-          console.log(response.data.data)
-      
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+        .request(options)
+        .then((response) => {
+          console.log("testing");
+          array.push(response.data.data[0]);
+
+          console.log(response.data.data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
       if (index.current < 2) {
-      setTimeout(() => {
-        console.log(index.current);
+        setTimeout(() => {
+          console.log(index.current);
           index.current = index.current + 1;
           console.log("fetching new city" + index.current);
-          fetchRandomcity(randomCity[Math.floor(Math.random() * (randomCity.length + 1))])
-          
+          fetchRandomcity(randomCity[Math.floor(Math.random() * (randomCity.length + 1))]);
         }, 1500);
       } else {
-        setRandomCities([...array])
+        setRandomCities([...array]);
       }
     };
-        fetchRandomcity(randomCity[Math.floor(Math.random() * (randomCity.length + 1))]);
-   // eslint-disable-next-line react-hooks/exhaustive-deps 
- }, []);
+    fetchRandomcity(randomCity[Math.floor(Math.random() * (randomCity.length + 1))]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-console.log(randomCities);
+  console.log(randomCities);
 
   return (
     <div className={styles.main}>
@@ -164,20 +156,18 @@ console.log(randomCities);
             <h1>Featured city!</h1>
 
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
-              labore facilis perferendis adipisci amet expedita tempore sapiente
-              accusamus incidunt ab voluptates commodi quis quos, nemo
-              consequatur autem aut fugiat est!
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque labore facilis perferendis adipisci amet
+              expedita tempore sapiente accusamus incidunt ab voluptates commodi quis quos, nemo consequatur autem aut
+              fugiat est!
             </p>
           </div>
         </div>
         <div className={styles.otherCities}>
-         {randomCities.map((city) => (
-
-          <div className={styles.eachCity} onClick={() => handleClick(city)}>
-            <p>{city.city}</p>
-         </div>
-        ))}
+          {randomCities.map((city) => (
+            <div className={styles.eachCity} onClick={() => handleClick(city)}>
+              <p>{city.city}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
