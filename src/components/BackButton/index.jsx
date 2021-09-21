@@ -6,7 +6,6 @@ const BackButton = ({ url }) => {
   const history = useHistory();
 
   const handleClick = (url) => {
-    console.log(url);
     history.push(url);
   };
   return (

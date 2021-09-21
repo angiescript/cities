@@ -12,57 +12,57 @@ const Skyscannerapi = ({ cityInfo }) => {
   const [airports, setAirports] = useState([]);
 
   // Fetch request with "searchTerm (london)", to access 'cityId'
-  const fetchAirportsByCity = async (city) => {
-    const config = {
-      params: { query: `${city}` },
-      headers: {
-        "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-        "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
-      },
-    };
-
-    await axios
-      .get(
-        "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/SE/SEK/SE/",
-        config
-      )
-      .then((response) => {
-        console.table(response.data.Places); // Airports in with searchterm "city"
-        console.log(response.data.Places[0].CityId); // First object contains "Overall-CityId" - too include all airports
-        setAirports(response.data.Places);
-        fetchFlightsByCityId(response.data.Places[0].CityId);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  };
-
-  // Fetch request with 'cityId', to search flights including all airports in london
-  const fetchFlightsByCityId = async (cityId) => {
-    const config = {
-      headers: {
-        "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-        "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
-      },
-    };
-
-    await axios
-      .get(
-        `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/SE/SEK/SE/SE-sky/${cityId}/anytime`,
-        config
-      )
-      .then((response) => {
-        console.log(response.data);
-        setFlightData(response.data);
-        setQuotes(response.data.Quotes);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  };
-
   useEffect(() => {
+    const fetchAirportsByCity = async (city) => {
+      const config = {
+        params: { query: `${city}` },
+        headers: {
+          "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+          "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
+        },
+      };
+
+      await axios
+        .get(
+          "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/SE/SEK/SE/",
+          config
+        )
+        .then((response) => {
+          // console.table(response.data.Places); // Airports in with searchterm "city"
+          // console.log(response.data.Places[0].CityId); // First object contains "Overall-CityId" - too include all airports
+          setAirports(response.data.Places);
+          fetchFlightsByCityId(response.data.Places[0].CityId);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    };
+
+    // Fetch request with 'cityId', to search flights including all airports in london
+    const fetchFlightsByCityId = async (cityId) => {
+      const config = {
+        headers: {
+          "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+          "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
+        },
+      };
+
+      await axios
+        .get(
+          `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/SE/SEK/SE/SE-sky/${cityId}/anytime`,
+          config
+        )
+        .then((response) => {
+          setFlightData(response.data);
+          setQuotes(response.data.Quotes);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    };
+
     fetchAirportsByCity(city);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -103,6 +103,7 @@ const Skyscannerapi = ({ cityInfo }) => {
                       <td>{departureDate}</td>
                     </tr>
                   );
+                else return null;
               })}
             </tbody>
           </table>

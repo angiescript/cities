@@ -2,7 +2,7 @@ import axios from "axios";
 import { useRef, useState, useEffect } from "react";
 import React from "react";
 import styles from "./index.module.scss";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import cityArray from "./cityArray";
 
 const Homepage = ({ setCityInfo }) => {
@@ -53,6 +53,8 @@ const Homepage = ({ setCityInfo }) => {
       }, 500);
       return () => clearTimeout(timeoutId);
     } else return;
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [term]);
 
   const handleClick = (city) => {
@@ -77,12 +79,13 @@ const Homepage = ({ setCityInfo }) => {
             {city.name} <p>({city.country})</p>
           </li>
         );
-      }
+      } else return null;
     });
   };
 
   useEffect(() => {
     let array = [];
+    let numberArray = [];
     const fetchRandomcity = async (city) => {
       var options = {
         method: "GET",
@@ -99,34 +102,41 @@ const Homepage = ({ setCityInfo }) => {
           "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
         },
       };
-      const fetchCity = await axios
+
+      await axios
         .request(options)
         .then((response) => {
-          console.log("testing");
           array.push(response.data.data[0]);
-
-          console.log(response.data.data);
         })
         .catch(function (error) {
           console.error(error);
         });
+
       if (index.current < 2) {
         setTimeout(() => {
-          console.log(index.current);
           index.current = index.current + 1;
-          console.log("fetching new city" + index.current);
           fetchRandomcity(randomCity[Math.floor(Math.random() * (randomCity.length + 1))]);
         }, 1500);
       } else {
         setRandomCities([...array]);
       }
     };
-    fetchRandomcity(randomCity[Math.floor(Math.random() * (randomCity.length + 1))]);
+    const createRandomNumber = () => {
+      let randomNumber = Math.floor(Math.random() * (randomCity.length + 1));
+      console.log(randomNumber);
+      if (numberArray.indexOf(randomNumber) !== -1) {
+        console.log("I ALREADY EXIST" + randomNumber);
+        createRandomNumber();
+      } else {
+        numberArray.push(randomNumber);
+        return randomNumber;
+      }
+    };
+
+    fetchRandomcity(randomCity[createRandomNumber]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   console.log(randomCities);
-
   return (
     <div className={styles.main}>
       <div className={styles.paper}>
@@ -163,11 +173,12 @@ const Homepage = ({ setCityInfo }) => {
           </div>
         </div>
         <div className={styles.otherCities}>
-          {randomCities.map((city) => (
-            <div className={styles.eachCity} onClick={() => handleClick(city)}>
-              <p>{city.city}</p>
-            </div>
-          ))}
+          {!!randomCities.length &&
+            randomCities.map((city) => (
+              <div className={styles.eachCity} onClick={() => handleClick(city)} key={city.city}>
+                <p>{city.city}</p>
+              </div>
+            ))}
         </div>
       </div>
     </div>

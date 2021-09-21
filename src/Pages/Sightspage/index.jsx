@@ -1,13 +1,10 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import BackButton from "../../components/BackButton";
 import styles from "./index.module.scss";
 
 const Sightspage = ({ cityInfo }) => {
-  // const [lon, setLon] = useState(18.06871);
-  // const [lat, setlat] = useState(59.32938);
-
   const lon = cityInfo.longitude;
   const lat = cityInfo.latitude;
 
@@ -18,7 +15,6 @@ const Sightspage = ({ cityInfo }) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  const history = useHistory();
   const cityName = capitalizeFirstLetter(useParams().query);
 
   const fetchSights = async () => {
@@ -47,16 +43,16 @@ const Sightspage = ({ cityInfo }) => {
 
   useEffect(() => {
     fetchSights();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    console.log(allSights);
-
     if (allSights.length > 0) {
       allSights.map((value) => {
         fetchSightsID(value.xid);
 
-        return;
+        return null;
       });
     }
   }, [allSights]);
@@ -70,7 +66,7 @@ const Sightspage = ({ cityInfo }) => {
           <div className={styles.sightsBox}>
             {fullSightsInfo.map((sight, index) => {
               return (
-                <div className={styles.sight}>
+                <div className={styles.sight} key={index}>
                   <img src={sight.preview.source} alt={sight.wikipedia_extracts.title} />
                   <h3>{sight.name}</h3>
                   <>{sight.wikipedia_extracts.text}</>

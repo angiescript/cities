@@ -27,15 +27,20 @@ const Weather = ({ query, lon, lat, open }) => {
       }
     };
     getData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
+    let boolean = true;
     const updateTime = () => {
-      const newTime = new Date(new Date().getTime() + offset * 1000);
-      setCurrentTime(newTime.toLocaleTimeString("en-GB"));
-      return setTimeout(() => {
-        updateTime();
-      }, 1000);
+      if (boolean) {
+        const newTime = new Date(new Date().getTime() + offset * 1000);
+        setCurrentTime(newTime.toLocaleTimeString("en-GB"));
+        return setTimeout(() => {
+          updateTime();
+        }, 1000);
+      } else return null;
     };
 
     if (offset !== 1) {
@@ -54,6 +59,10 @@ const Weather = ({ query, lon, lat, open }) => {
 
       updateTime();
     }
+    return () => {
+      boolean = false;
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offset]);
 
