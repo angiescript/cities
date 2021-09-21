@@ -4,11 +4,10 @@ import React from "react";
 import styles from "./index.module.scss";
 import { useHistory } from "react-router-dom";
 
-const Homepage = ({setCityInfo}) => {
+const Homepage = ({ setCityInfo }) => {
   const history = useHistory();
   const [cities, setCities] = useState([]);
   const [term, setTerm] = useState("");
-  const apiKey = "5ae2e3f221c38a28845f05b6196740bc06611b2480aad45795c80cd7";
   const fetchData = async (query) => {
     var options = {
       method: "GET",
@@ -30,9 +29,7 @@ const Homepage = ({setCityInfo}) => {
       .request(options)
       .then((response) => {
         setCities(response.data.data);
-        console.log(response.data.data);
         setCityInfo(response.data.data[0]);
-        // console.log(response.data.data);
         return request;
       })
       .catch(function (error) {
@@ -43,7 +40,6 @@ const Homepage = ({setCityInfo}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await fetchData(term);
-    console.log(term);
     history.push(term);
   };
 
@@ -70,7 +66,7 @@ const Homepage = ({setCityInfo}) => {
           <img src="https://via.placeholder.com/400x250"></img>
           <div className={styles.featuredCityTextbox}>
             <h1>Featured city!</h1>
-            
+
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque labore facilis perferendis adipisci amet
               expedita tempore sapiente accusamus incidunt ab voluptates commodi quis quos, nemo consequatur autem aut
@@ -81,7 +77,7 @@ const Homepage = ({setCityInfo}) => {
         <div className={styles.otherCities}>
           <div className={styles.otherCitiesHeader}>
             <h3>Other cities you might be interested in</h3>
-            
+
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos molestiae facilis voluptate aliquid
               esse magni distinctio eveniet optio deleniti. Recusandae alias pariatur omnis natus distinctio optio

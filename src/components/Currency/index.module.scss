@@ -1,37 +1,38 @@
 .exchangeDiv {
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-    border: 2px #000000 solid;
-    border-radius: 10px;
-    width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px #000000 solid;
+  border-radius: 10px;
+  width: 300px;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 
-    .exchangeForm{
-font-size: 1.5rem;
-    
+  .exchangeForm {
+    font-size: 1.5rem;
+
     input {
-        width: 70px;
-        height: 40px;
-        border-radius: 2px;
-        font-size: 1.5rem;
-        margin-right: 10px;
+      width: 70px;
+      height: 40px;
+      border-radius: 2px;
+      font-size: 1.5rem;
+      margin-right: 10px;
     }
 
-    select{
-        height: 40px;
-        border-radius: 2px;
-        font-size: 1.5rem;
-        margin-left: 10px;
+    select {
+      height: 40px;
+      border-radius: 2px;
+      font-size: 1.5rem;
+      margin-left: 10px;
     }
-}
+  }
 
-.exchangeSum{
+  .exchangeSum {
     margin-top: 20px;
     font-weight: bolder;
     font-size: 2rem;
     margin-bottom: 10px;
-    
-}
-
+  }
 }
