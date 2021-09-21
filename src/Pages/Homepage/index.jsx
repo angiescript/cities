@@ -173,13 +173,10 @@ console.log(randomCities);
         </div>
         <div className={styles.otherCities}>
          {randomCities.map((city) => (
-          <Link to={{
-            pathname: "./Citypage",
-            search: `${city.city}`
-            
-          }}><div className={styles.eachCity}>
+
+          <div className={styles.eachCity} onClick={() => handleClick(city)}>
             <p>{city.city}</p>
-         </div> </Link>
+         </div>
         ))}
         </div>
       </div>
