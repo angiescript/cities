@@ -1,14 +1,19 @@
 import axios from "axios";
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import React from "react";
 import styles from "./index.module.scss";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
+import cityArray from "./cityArray";
 
-const Homepage = ({setCityInfo}) => {
+const Homepage = ({ setCityInfo }) => {
+  const index = useRef(0);
+  const randomCity = cityArray;
+  const [randomCities, setRandomCities] = useState([]);
   const history = useHistory();
   const [cities, setCities] = useState([]);
   const [term, setTerm] = useState("");
-  const apiKey = "5ae2e3f221c38a28845f05b6196740bc06611b2480aad45795c80cd7";
+  const [noCities, setNoCities] = useState(false);
+
   const fetchData = async (query) => {
     var options = {
       method: "GET",
@@ -26,51 +31,130 @@ const Homepage = ({setCityInfo}) => {
       },
     };
 
-    const request = await axios
+    await axios
       .request(options)
       .then((response) => {
         setCities(response.data.data);
-        console.log(response.data.data);
         setCityInfo(response.data.data[0]);
-        // console.log(response.data.data);
-        return request;
+
+        if (response.data.data.length > 0) {
+          setNoCities(false);
+        } else setNoCities(true);
       })
       .catch(function (error) {
         console.error(error);
       });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await fetchData(term);
-    console.log(term);
-    history.push(term);
+  useEffect(() => {
+    if (term.length > 1) {
+      const timeoutId = setTimeout(() => {
+        fetchData(term);
+      }, 500);
+      return () => clearTimeout(timeoutId);
+    } else return;
+  }, [term]);
+
+  const handleClick = (city) => {
+    setCityInfo(city);
+    history.push(city.city);
   };
+
+  const renderDropdown = () => {
+    if (noCities && term.length < 1) {
+      setNoCities(false);
+      return <></>;
+    } else if (noCities) {
+      return <li>Sorry, no results</li>;
+    }
+
+    return cities.map((city) => {
+      if (term < 1) setCities([]);
+
+      if (cities.length >= 1) {
+        return (
+          <li key={city.id} onClick={() => handleClick(city)}>
+            {city.name} <p>({city.country})</p>
+          </li>
+        );
+      }
+    });
+  };
+
+  useEffect(() => {
+    let array = [];
+    const fetchRandomcity = async (city) => {
+      var options = {
+        method: "GET",
+        url: "https://wft-geo-db.p.rapidapi.com/v1/geo/cities",
+        params: {
+          minPopulation: "500",
+          namePrefix: city,
+          sort: "-population ",
+          languageCode: "en",
+          types: "CITY",
+        },
+        headers: {
+          "x-rapidapi-host": "wft-geo-db.p.rapidapi.com",
+          "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
+        },
+      };
+      const fetchCity = await axios
+        .request(options)
+        .then((response) => {
+          console.log("testing");
+          array.push(response.data.data[0]);
+
+          console.log(response.data.data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+      if (index.current < 2) {
+        setTimeout(() => {
+          console.log(index.current);
+          index.current = index.current + 1;
+          console.log("fetching new city" + index.current);
+          fetchRandomcity(randomCity[Math.floor(Math.random() * (randomCity.length + 1))]);
+        }, 1500);
+      } else {
+        setRandomCities([...array]);
+      }
+    };
+    fetchRandomcity(randomCity[Math.floor(Math.random() * (randomCity.length + 1))]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  console.log(randomCities);
 
   return (
     <div className={styles.main}>
       <div className={styles.paper}>
         <div className={styles.banner}>
-          <img src="https://via.placeholder.com/250"></img>
+          <img src="https://via.placeholder.com/250" alt="placeholder" />
 
           <div>
             <h1>Cities!</h1>
             <p>A lot of cities. Great info.</p>
-            <form onSubmit={handleSubmit}>
+            <form>
               <input
+                spellCheck="false"
                 type="text"
                 placeholder="Search for a city"
                 value={term}
                 onChange={(e) => setTerm(e.target.value)}
               />
             </form>
+            <div className={styles.searchResults}>
+              <ul>{renderDropdown()}</ul>
+            </div>
           </div>
         </div>
         <div className={styles.featuredCity}>
-          <img src="https://via.placeholder.com/400x250"></img>
+          <img src="https://via.placeholder.com/400x250" alt="poster" />
           <div className={styles.featuredCityTextbox}>
             <h1>Featured city!</h1>
-            
+
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque labore facilis perferendis adipisci amet
               expedita tempore sapiente accusamus incidunt ab voluptates commodi quis quos, nemo consequatur autem aut
@@ -79,29 +163,11 @@ const Homepage = ({setCityInfo}) => {
           </div>
         </div>
         <div className={styles.otherCities}>
-          <div className={styles.otherCitiesHeader}>
-            <h3>Other cities you might be interested in</h3>
-            
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos molestiae facilis voluptate aliquid
-              esse magni distinctio eveniet optio deleniti. Recusandae alias pariatur omnis natus distinctio optio
-              maxime facilis nostrum nulla?
-            </p>
-          </div>
-          <div className={styles.otherCitiesThumbContainer}>
-            <div className={styles.otherCitiesThumb}>
-              <img src="https://via.placeholder.com/100"></img> Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Non culpa voluptates iure illo fugiat nulla,
+          {randomCities.map((city) => (
+            <div className={styles.eachCity} onClick={() => handleClick(city)}>
+              <p>{city.city}</p>
             </div>
-            <div className={styles.otherCitiesThumb}>
-              {" "}
-              <img src="https://via.placeholder.com/100"></img>
-            </div>
-            <div className={styles.otherCitiesThumb}>
-              {" "}
-              <img src="https://via.placeholder.com/100"></img>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

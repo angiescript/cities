@@ -30,7 +30,6 @@ const CityDescription = ({ query, setImageUrl }) => {
     .then((response) => {
       setCityDescription(response.data.query.pages[0].extract);
       setImageUrl(response.data.query.pages[0].thumbnail.source);
-      console.log(response.data.query.pages[0]);
       return request;
     })
     .catch(function (error) {

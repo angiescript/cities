@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 import { useParams } from "react-router-dom";
 
-const Currency = ({cityInfo}) => {
+const Currency = ({ cityInfo, open }) => {
   const country = cityInfo.country;
   const apiKey = "9b0a137f140b003ece5560ee";
   const baseCurrency = "SEK";
@@ -16,82 +16,64 @@ const Currency = ({cityInfo}) => {
   const [calculatedAmount, setCalculatedAmount] = useState(0);
 
   useEffect(() => {
-  const fetchCurrency = async () => {
+    const fetchCurrency = async () => {
+      const result = await axios(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/${baseCurrency}`);
+      setConRate(result.data.conversion_rates);
 
-    const result = await axios(
-      `https://v6.exchangerate-api.com/v6/${apiKey}/latest/${baseCurrency}`
-    );
-    setConRate(result.data.conversion_rates);
-    console.log(conRate);
-    console.log(result.data);
-    
-    
-      const countryResult = await axios(
-        `https://restcountries.eu/rest/v2/name/${country}`
-        );
-        setSelectedCurrency(countryResult.data[0].currencies[0].code);
-        
-        console.log(countryResult.data[0].currencies[0]);
-        
-        setCurrencyList([countryResult.data[0].currencies[0].code, ...Object.keys(result.data.conversion_rates)]);
-        
-      };
-     fetchCurrency();
+      const countryResult = await axios(`https://restcountries.eu/rest/v2/name/${country}`);
+      setSelectedCurrency(countryResult.data[0].currencies[0].code);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps 
+      setCurrencyList([countryResult.data[0].currencies[0].code, ...Object.keys(result.data.conversion_rates)]);
+    };
+    fetchCurrency();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   useEffect(() => {
-    console.log("checking for rates")
-    console.log(currencyList);
     for (const currency in conRate) {
-      
       if (currency === selectedCurrency) {
         setCurrentRate(conRate[currency]);
-   
       }
-    }}, [selectedCurrency, conRate]);
-      
-  const calculate = (e) => {
+    }
+  }, [selectedCurrency, conRate]);
 
+  const calculate = (e) => {
     e.preventDefault();
-    setAmount(Number(e.target.value))
+    setAmount(Number(e.target.value));
     let calc = e.target.value * currentRate;
-    calc = calc.toFixed(2)
+    calc = calc.toFixed(2);
     setCalculatedAmount(calc);
-    
   };
 
   const newValue = (e) => {
-    setSelectedCurrency(e.target.value)
+    setSelectedCurrency(e.target.value);
     setAmount(0);
     setCalculatedAmount(0);
-  }
-  
-  console.log(selectedCurrency);
+  };
+
+  if (!open) return <> </>;
 
   return (
     <div className={styles.exchangeDiv}>
-      <h2>Change from{" "}</h2>
+      <h2>Change from </h2>
       <form className={styles.exchangeForm}>
-        <input
-          type="text"
-          placeholder="amount"
-          value={amount}
-          onChange={(e) => calculate(e)}
-        />
-      
-      {baseCurrency} to
-      <select onChange={(e) => newValue(e) }>
-        {currencyList.map((list) => (
-          <option key={list.value} value={list.value}>
-            {list}
-          </option>
-        ))}
-      </select>
+        <input type="text" placeholder="amount" value={amount} onChange={(e) => calculate(e)} />
+        {baseCurrency} to
+        <select onChange={(e) => newValue(e)}>
+          {currencyList.map((list) => (
+            <option key={list.value} value={list.value}>
+              {list}
+            </option>
+          ))}
+        </select>
       </form>
-      <div className={styles.exchangeSum}>{calculatedAmount}{" "}{" "}{selectedCurrency}</div>
+      <p>
+        1 {baseCurrency} = {currentRate.toFixed(3)} {selectedCurrency}
+      </p>
+      <div className={styles.exchangeSum}>
+        {calculatedAmount} {selectedCurrency}
+      </div>
     </div>
   );
 };
