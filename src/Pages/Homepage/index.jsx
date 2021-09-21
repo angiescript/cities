@@ -44,7 +44,7 @@ const Homepage = ({ setCityInfo }) => {
       const timeoutId = setTimeout(() => {
         fetchData(term);
         console.log("fetch-reqeust SENT");
-      }, 1000);
+      }, 500);
       return () => clearTimeout(timeoutId);
     } else return;
   }, [term]);
