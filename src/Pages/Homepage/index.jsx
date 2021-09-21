@@ -9,6 +9,7 @@ const Homepage = ({ setCityInfo }) => {
 
   const [cities, setCities] = useState([]);
   const [term, setTerm] = useState("");
+  const [noCities, setNoCities] = useState(false);
 
   const fetchData = async (query) => {
     var options = {
@@ -31,6 +32,9 @@ const Homepage = ({ setCityInfo }) => {
       .request(options)
       .then((response) => {
         setCities(response.data.data);
+        if (response.data.data.length > 0) {
+          setNoCities(false);
+        } else setNoCities(true);
       })
       .catch(function (error) {
         console.error(error);
@@ -38,12 +42,9 @@ const Homepage = ({ setCityInfo }) => {
   };
 
   useEffect(() => {
-    console.log(term);
-
     if (term.length > 1) {
       const timeoutId = setTimeout(() => {
         fetchData(term);
-        console.log("fetch-reqeust SENT");
       }, 500);
       return () => clearTimeout(timeoutId);
     } else return;
@@ -52,7 +53,27 @@ const Homepage = ({ setCityInfo }) => {
   const handleClick = (city) => {
     setCityInfo(city);
     history.push(city.city);
-    console.log(city);
+  };
+
+  const renderDropdown = () => {
+    if (noCities && term.length < 1) {
+      setNoCities(false);
+      return <></>;
+    } else if (noCities) {
+      return <li>Sorry, no results</li>;
+    }
+
+    return cities.map((city) => {
+      if (term < 1) setCities([]);
+
+      if (cities.length >= 1) {
+        return (
+          <li key={city.id} onClick={() => handleClick(city)}>
+            {city.name} <p>({city.country})</p>
+          </li>
+        );
+      }
+    });
   };
 
   return (
@@ -66,6 +87,7 @@ const Homepage = ({ setCityInfo }) => {
             <p>A lot of cities. Great info.</p>
             <form>
               <input
+                spellCheck="false"
                 type="text"
                 placeholder="Search for a city"
                 value={term}
@@ -73,23 +95,7 @@ const Homepage = ({ setCityInfo }) => {
               />
             </form>
             <div className={styles.searchResults}>
-              <ul>
-                {cities.map((city) => {
-                  if (term < 1) {
-                    setCities([]);
-                    return;
-                  }
-
-                  if (cities.length >= 1) {
-                    console.log(cities.length);
-                    return (
-                      <li key={city.id} onClick={() => handleClick(city)}>
-                        {city.name} <p>({city.country})</p>
-                      </li>
-                    );
-                  }
-                })}
-              </ul>
+              <ul>{renderDropdown()}</ul>
             </div>
           </div>
         </div>
