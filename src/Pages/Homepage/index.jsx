@@ -8,11 +8,13 @@ import cityArray from "./cityArray";
 const Homepage = ({ setCityInfo }) => {
   const index = useRef(0);
   const randomCity = cityArray;
-  const [randomCities, setRandomCities] = useState([]);
+  const randomCities = useRef([]);
+  const [finalRandomArray, setFinalRandomArray] = useState([]);
   const history = useHistory();
   const [cities, setCities] = useState([]);
   const [term, setTerm] = useState("");
   const [noCities, setNoCities] = useState(false);
+  const numbersArray = useRef([]);
 
   const fetchData = async (query) => {
     var options = {
@@ -84,59 +86,58 @@ const Homepage = ({ setCityInfo }) => {
   };
 
   useEffect(() => {
-    let array = [];
-    let numberArray = [];
-    const fetchRandomcity = async (city) => {
-      var options = {
-        method: "GET",
-        url: "https://wft-geo-db.p.rapidapi.com/v1/geo/cities",
-        params: {
-          minPopulation: "500",
-          namePrefix: city,
-          sort: "-population ",
-          languageCode: "en",
-          types: "CITY",
-        },
-        headers: {
-          "x-rapidapi-host": "wft-geo-db.p.rapidapi.com",
-          "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
-        },
+    if (!!randomCity.length) {
+      const fetchRandomcity = async (city) => {
+        var options = {
+          method: "GET",
+          url: "https://wft-geo-db.p.rapidapi.com/v1/geo/cities",
+          params: {
+            minPopulation: "500",
+            namePrefix: city,
+            sort: "-population ",
+            languageCode: "en",
+            types: "CITY",
+          },
+          headers: {
+            "x-rapidapi-host": "wft-geo-db.p.rapidapi.com",
+            "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
+          },
+        };
+
+        await axios
+          .request(options)
+          .then((response) => {
+            randomCities.current = [response.data.data[0], ...randomCities.current];
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
+
+        if (index.current < 2) {
+          setTimeout(() => {
+            index.current = index.current + 1;
+            fetchRandomcity(randomCity[createRandomNumber()]);
+          }, 1500);
+        } else {
+          setFinalRandomArray([...randomCities.current]);
+        }
       };
 
-      await axios
-        .request(options)
-        .then((response) => {
-          array.push(response.data.data[0]);
-        })
-        .catch(function (error) {
-          console.error(error);
-        });
+      const createRandomNumber = () => {
+        let randomNumber = Math.floor(Math.random() * randomCity.length);
+        if (numbersArray.current.indexOf(randomNumber) !== -1) {
+          createRandomNumber();
+        } else {
+          numbersArray.current = [randomNumber, ...numbersArray.current];
+          return randomNumber;
+        }
+      };
 
-      if (index.current < 2) {
-        setTimeout(() => {
-          index.current = index.current + 1;
-          fetchRandomcity(randomCity[Math.floor(Math.random() * (randomCity.length + 1))]);
-        }, 1500);
-      } else {
-        setRandomCities([...array]);
-      }
-    };
-    const createRandomNumber = () => {
-      let randomNumber = Math.floor(Math.random() * (randomCity.length + 1));
-      console.log(randomNumber);
-      if (numberArray.indexOf(randomNumber) !== -1) {
-        console.log("I ALREADY EXIST" + randomNumber);
-        createRandomNumber();
-      } else {
-        numberArray.push(randomNumber);
-        return randomNumber;
-      }
-    };
+      fetchRandomcity(randomCity[createRandomNumber()]);
+    }
 
-    fetchRandomcity(randomCity[createRandomNumber]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(randomCities);
   return (
     <div className={styles.main}>
       <div className={styles.paper}>
@@ -173,8 +174,8 @@ const Homepage = ({ setCityInfo }) => {
           </div>
         </div>
         <div className={styles.otherCities}>
-          {!!randomCities.length &&
-            randomCities.map((city) => (
+          {!!finalRandomArray.length &&
+            finalRandomArray.map((city) => (
               <div className={styles.eachCity} onClick={() => handleClick(city)} key={city.city}>
                 <p>{city.city}</p>
               </div>
