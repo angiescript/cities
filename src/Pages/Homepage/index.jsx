@@ -4,6 +4,7 @@ import React from "react";
 import styles from "./index.module.scss";
 import { useHistory, Link } from "react-router-dom";
 import cityArray from "./cityArray";
+import CityImage from "../../components/CItyImage";
 
 const Homepage = ({ setCityInfo }) => {
   const index = useRef(0);
@@ -165,7 +166,9 @@ const Homepage = ({ setCityInfo }) => {
         <div className={styles.otherCities}>
           {randomCities.map((city) => (
             <div className={styles.eachCity} onClick={() => handleClick(city)}>
+              <CityImage query={city.city}/>
               <p>{city.city}</p>
+
             </div>
           ))}
         </div>
