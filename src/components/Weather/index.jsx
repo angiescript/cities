@@ -15,25 +15,32 @@ const Weather = ({ query, lon, lat, open }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const result = await axios.get(
-        `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`
-      );
-      setResults(result.data);
-      setOffset(result.data.timezone_offset + new Date().getTimezoneOffset() * 60);
-      setCurrentTemp(Math.round(result.data.current.temp));
-      setCurrentIcon(result.data.current.weather[0].icon);
-      setDailyData(result.data.daily.slice(1));
+      if (lat !== undefined || lon !== undefined) {
+        const result = await axios.get(
+          `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`
+        );
+        setResults(result.data);
+        setOffset(result.data.timezone_offset + new Date().getTimezoneOffset() * 60);
+        setCurrentTemp(Math.round(result.data.current.temp));
+        setCurrentIcon(result.data.current.weather[0].icon);
+        setDailyData(result.data.daily.slice(1));
+      }
     };
     getData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
+    let boolean = true;
     const updateTime = () => {
-      const newTime = new Date(new Date().getTime() + offset * 1000);
-      setCurrentTime(newTime.toLocaleTimeString("en-GB"));
-      return setTimeout(() => {
-        updateTime();
-      }, 1000);
+      if (boolean) {
+        const newTime = new Date(new Date().getTime() + offset * 1000);
+        setCurrentTime(newTime.toLocaleTimeString("en-GB"));
+        return setTimeout(() => {
+          updateTime();
+        }, 1000);
+      } else return null;
     };
 
     if (offset !== 1) {
@@ -52,6 +59,10 @@ const Weather = ({ query, lon, lat, open }) => {
 
       updateTime();
     }
+    return () => {
+      boolean = false;
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offset]);
 

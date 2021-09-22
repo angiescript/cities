@@ -1,0 +1,14 @@
+.backDiv {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  i {
+    font-size: 3rem;
+    color: rgba(0, 0, 0, 0.438);
+    transition: color ease-in-out 100ms;
+    &:hover {
+      color: rgba(0, 0, 0, 0.603);
+      cursor: pointer;
+    }
+  }
+}

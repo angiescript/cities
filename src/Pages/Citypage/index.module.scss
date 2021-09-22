@@ -22,9 +22,6 @@ body {
       padding: 1rem 0;
       position: relative;
 
-      img {
-      }
-
       .cityInfo {
         display: flex;
         flex-direction: column;
@@ -61,7 +58,7 @@ body {
         margin: 0.5rem 0;
       }
 
-      .weatherInfo {
+      .moreInfoDiv {
         max-width: 200px;
 
         &:hover {
@@ -73,6 +70,14 @@ body {
         display: flex;
         flex-direction: column;
         max-width: 200px;
+      }
+
+      .currencyInfo {
+        max-width: 200px;
+
+        &:hover {
+          cursor: pointer;
+        }
       }
 
       .flightsInfo {
