@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router";
 import cityArray from "../../Pages/Homepage";
 import styles from "./index.module.scss";
+import CityImage from "../CityImage";
 
 const RandomCities = ({ setCityInfo }) => {
   const numbersArray = useRef([]);
@@ -75,6 +76,7 @@ const RandomCities = ({ setCityInfo }) => {
       {!!finalRandomArray.length &&
         finalRandomArray.map((city) => (
           <div className={styles.eachCity} onClick={() => handleClick(city)} key={city.city}>
+            <CityImage query={city.city} />
             <p>{city.city}</p>
           </div>
         ))}
