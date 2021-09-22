@@ -9,7 +9,7 @@ const CityImage = ({ query }) => {
     const getData = async () => {
       try {
         const getPhoto = await axios.get(`https://api.unsplash.com/search/photos?query=${query}&client_id=${apiKey}`);
-        console.log(getPhoto.data);
+        // console.log(getPhoto.data.results.sort((a, b) => b.likes - a.likes));
         setImgUrl(getPhoto.data.results[0].urls.small);
       } catch (error) {
         console.dir(error);
@@ -17,6 +17,8 @@ const CityImage = ({ query }) => {
     };
 
     getData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

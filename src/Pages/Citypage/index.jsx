@@ -5,11 +5,11 @@ import Currency from "../../components/Currency";
 import Weather from "../../components/Weather";
 import CityDescription from "../../components/CityDescription";
 import CityImage from "../../components/CItyImage";
+import BackButton from "../../components/BackButton";
 
 const Citypage = ({ cityInfo }) => {
   const [weatherOpen, setWeatherOpen] = useState(false);
   const [currencyOpen, setCurrencyOpen] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -20,6 +20,7 @@ const Citypage = ({ cityInfo }) => {
     <div className={styles.main}>
       <div className={styles.paper}>
         <div className={styles.banner}>
+          <BackButton url={"/"} />
           <div>
             <CityImage query={cityName} />
           </div>
@@ -27,7 +28,7 @@ const Citypage = ({ cityInfo }) => {
             <Weather query={cityName} lon={cityInfo.longitude} lat={cityInfo.latitude} open={weatherOpen} />
             <Currency cityInfo={cityInfo} open={currencyOpen} />
             <h1>{cityName}</h1>
-            <CityDescription query={cityName} setImageUrl={setImageUrl} />
+            <CityDescription query={cityName} />
           </div>
 
           <div className={styles.additionalInfoBanner}>
@@ -59,7 +60,6 @@ const Citypage = ({ cityInfo }) => {
               </div>
             </div>
           </div>
-          <button onClick={() => history.push("/")}>Back</button>
         </div>
       </div>
     </div>

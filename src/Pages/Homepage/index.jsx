@@ -2,18 +2,20 @@ import axios from "axios";
 import { useRef, useState, useEffect } from "react";
 import React from "react";
 import styles from "./index.module.scss";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import cityArray from "./cityArray";
 import CityImage from "../../components/CItyImage";
 
 const Homepage = ({ setCityInfo }) => {
   const index = useRef(0);
   const randomCity = cityArray;
-  const [randomCities, setRandomCities] = useState([]);
+  const randomCities = useRef([]);
+  const [finalRandomArray, setFinalRandomArray] = useState([]);
   const history = useHistory();
   const [cities, setCities] = useState([]);
   const [term, setTerm] = useState("");
   const [noCities, setNoCities] = useState(false);
+  const numbersArray = useRef([]);
 
   const fetchData = async (query) => {
     var options = {
@@ -54,6 +56,8 @@ const Homepage = ({ setCityInfo }) => {
       }, 500);
       return () => clearTimeout(timeoutId);
     } else return;
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [term]);
 
   const handleClick = (city) => {
@@ -78,56 +82,63 @@ const Homepage = ({ setCityInfo }) => {
             {city.name} <p>({city.country})</p>
           </li>
         );
-      }
+      } else return null;
     });
   };
 
   useEffect(() => {
-    let array = [];
-    const fetchRandomcity = async (city) => {
-      var options = {
-        method: "GET",
-        url: "https://wft-geo-db.p.rapidapi.com/v1/geo/cities",
-        params: {
-          minPopulation: "500",
-          namePrefix: city,
-          sort: "-population ",
-          languageCode: "en",
-          types: "CITY",
-        },
-        headers: {
-          "x-rapidapi-host": "wft-geo-db.p.rapidapi.com",
-          "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
-        },
-      };
-      const fetchCity = await axios
-        .request(options)
-        .then((response) => {
-          console.log("testing");
-          array.push(response.data.data[0]);
+    if (!!randomCity.length) {
+      const fetchRandomcity = async (city) => {
+        var options = {
+          method: "GET",
+          url: "https://wft-geo-db.p.rapidapi.com/v1/geo/cities",
+          params: {
+            minPopulation: "500",
+            namePrefix: city,
+            sort: "-population ",
+            languageCode: "en",
+            types: "CITY",
+          },
+          headers: {
+            "x-rapidapi-host": "wft-geo-db.p.rapidapi.com",
+            "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
+          },
+        };
 
-          console.log(response.data.data);
-        })
-        .catch(function (error) {
-          console.error(error);
-        });
-      if (index.current < 2) {
-        setTimeout(() => {
-          console.log(index.current);
-          index.current = index.current + 1;
-          console.log("fetching new city" + index.current);
-          fetchRandomcity(randomCity[Math.floor(Math.random() * (randomCity.length + 1))]);
-        }, 1500);
-      } else {
-        setRandomCities([...array]);
-      }
-    };
-    fetchRandomcity(randomCity[Math.floor(Math.random() * (randomCity.length + 1))]);
+        await axios
+          .request(options)
+          .then((response) => {
+            randomCities.current = [response.data.data[0], ...randomCities.current];
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
+
+        if (index.current < 2) {
+          setTimeout(() => {
+            index.current = index.current + 1;
+            fetchRandomcity(randomCity[createRandomNumber()]);
+          }, 1500);
+        } else {
+          setFinalRandomArray([...randomCities.current]);
+        }
+      };
+
+      const createRandomNumber = () => {
+        let randomNumber = Math.floor(Math.random() * randomCity.length);
+        if (numbersArray.current.indexOf(randomNumber) !== -1) {
+          createRandomNumber();
+        } else {
+          numbersArray.current = [randomNumber, ...numbersArray.current];
+          return randomNumber;
+        }
+      };
+
+      fetchRandomcity(randomCity[createRandomNumber()]);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  console.log(randomCities);
-
   return (
     <div className={styles.main}>
       <div className={styles.paper}>

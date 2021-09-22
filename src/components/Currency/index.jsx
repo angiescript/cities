@@ -2,7 +2,6 @@ import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import styles from "./index.module.scss";
-import { useParams } from "react-router-dom";
 
 const Currency = ({ cityInfo, open }) => {
   const country = cityInfo.country;
@@ -61,8 +60,8 @@ const Currency = ({ cityInfo, open }) => {
         <input type="text" placeholder="amount" value={amount} onChange={(e) => calculate(e)} />
         {baseCurrency} to
         <select onChange={(e) => newValue(e)}>
-          {currencyList.map((list) => (
-            <option key={list.value} value={list.value}>
+          {currencyList.map((list, i) => (
+            <option key={i} value={list.value}>
               {list}
             </option>
           ))}

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import styles from "./index.module.scss";
-import { useHistory, useParams } from "react-router-dom";
+
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const CityDescription = ({ query, setImageUrl }) => {
+const CityDescription = () => {
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
-  const history = useHistory();
+
   const cityName = capitalizeFirstLetter(useParams().query);
   const [CityDescription, setCityDescription] = useState([]);
 
@@ -29,12 +29,12 @@ const CityDescription = ({ query, setImageUrl }) => {
     .request(url)
     .then((response) => {
       setCityDescription(response.data.query.pages[0].extract);
-      setImageUrl(response.data.query.pages[0].thumbnail.source);
       return request;
     })
     .catch(function (error) {
       console.error(error);
     });
+
   return (
     <div>
       <p>{CityDescription}</p>
