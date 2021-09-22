@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router";
-import cityArray from "../../Pages/Homepage";
+import cityArray from "../../Pages/Homepage/cityArray";
 import styles from "./index.module.scss";
 import CityImage from "../CityImage";
 
