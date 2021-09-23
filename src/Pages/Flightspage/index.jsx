@@ -113,8 +113,8 @@ const Skyscannerapi = ({ cityInfo }) => {
 
   return (
     <div className={styles.widgetContainer}>
-      <h2>Hitta de billigaste flygbiljetterna!</h2>
-      <h3>På alla flygplatser i Sverige till alla flygplatser i {city}</h3>
+      <h2>Find the cheapest airline tickets!</h2>
+      <h3>At all airports in Sweden to all airports in {city}</h3>
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit}>
           <div className={styles.destinations}>
@@ -194,7 +194,7 @@ const Skyscannerapi = ({ cityInfo }) => {
                 <th>From</th>
                 <th>To</th>
                 <th>Price</th>
-                <th>Direct flights</th>
+                <th>Direct flight</th>
                 <th>Departure</th>
               </tr>
             </thead>
@@ -209,12 +209,12 @@ const Skyscannerapi = ({ cityInfo }) => {
                 let departureDate = dest.OutboundLeg.DepartureDate.slice(0, 10);
                 let direct = "";
 
-                if (dest.Direct === true ? (direct = "Ja") : (direct = "Nej"))
+                if (dest.Direct === true ? (direct = "Yes") : (direct = "No"))
                   return (
                     <tr className={styles.flights} key={dest.QuoteId}>
                       <td className={styles.from}>{departureFromAirport}</td>
                       <td className={styles.to}>{arriveToAirport}</td>
-                      <td className={styles.price}>Från {dest.MinPrice} :-</td>
+                      <td className={styles.price}>From {dest.MinPrice} :-</td>
                       <td>{direct}</td>
                       <td>{departureDate}</td>
                     </tr>
