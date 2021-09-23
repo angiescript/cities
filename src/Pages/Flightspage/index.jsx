@@ -69,7 +69,7 @@ const Skyscannerapi = ({ cityInfo }) => {
       });
   };
 
-  const fetchSpecificFlights = async (from, to, date) => {
+  const fetchSpecificFlights = async (from, to, date="anytime") => {
     const config = {
       headers: {
         "x-rapidapi-host":
