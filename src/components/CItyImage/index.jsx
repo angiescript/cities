@@ -15,7 +15,7 @@ const CityImage = ({ query, size }) => {
       } catch (error) {
         console.dir(error);
       }
-    };
+    }; 
 
     getData();
 

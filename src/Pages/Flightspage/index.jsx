@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import BackButton from "../../components/BackButton";
 
-
-
 const Skyscannerapi = ({ cityInfo }) => {
   const city = cityInfo.city;
 
@@ -69,7 +67,7 @@ const Skyscannerapi = ({ cityInfo }) => {
       });
   };
 
-  const fetchSpecificFlights = async (from, to, date="anytime") => {
+  const fetchSpecificFlights = async (from, to, date = "anytime") => {
     const config = {
       headers: {
         "x-rapidapi-host":
@@ -104,58 +102,100 @@ const Skyscannerapi = ({ cityInfo }) => {
     console.log(`Till: ${to}`);
     console.log(`Datum: ${date}`);
     fetchSpecificFlights(from, to);
-
   };
+
+  let today = new Date();
+  let dd = String(today.getDate()).padStart(2, "0");
+  let mm = String(today.getMonth() + 1).padStart(2, "0");
+  let yyyy = today.getFullYear();
+
+  today = `${yyyy}-${mm}-${dd}`;
 
   return (
     <div className={styles.widgetContainer}>
       <h2>Hitta de billigaste flygbiljetterna!</h2>
       <h3>På alla flygplatser i Sverige till alla flygplatser i {city}</h3>
-      <form onSubmit={handleSubmit}>
-        <select
-          name="value1"
-          id="value2"
-          onChange={(value1) => setFrom(value1.target.value)}
-        >
-          <option>Från:</option>
-          <option value="SE-sky">Sverige</option>
-          {sweAirports.map((airport) => {
-            return (
-              <option key={airport.Name} value={airport.SkyscannerCode}>
-                {airport.Name}
-              </option>
-            );
-          })}
-        </select>
-        <select
-          name="value2"
-          id="value2"
-          onChange={(value2) => setTo(value2.target.value)}
-        >
-          <option>Till:</option>
-          {notSweAirports.map((airport) => {
-            return (
-              <option key={airport.Name} value={airport.SkyscannerCode}>
-                {airport.Name}
-              </option>
-            );
-          })}
-        </select>
+      <div className={styles.formContainer}>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.destinations}>
+            <div className={styles.from}>
+              <label>From</label>
+              <select
+                name="value1"
+                id="value2"
+                onChange={(value1) => setFrom(value1.target.value)}
+              >
+                <option value="SE-sky">Sverige</option>
+                {sweAirports.map((airport) => {
+                  return (
+                    <option key={airport.Name} value={airport.SkyscannerCode}>
+                      {airport.Name}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
 
-        <div></div>
-        <input type="date" name="date" id="date" value={date} onChange={(date) => setDate(date.target.value)} />
-        <button>Sök</button>
-      </form>
+            <div className={styles.to}>
+              <label>To</label>
+              <select
+                name="value2"
+                id="value2"
+                onChange={(value2) => setTo(value2.target.value)}
+              >
+                {notSweAirports.map((airport) => {
+                  return (
+                    <option key={airport.Name} value={airport.SkyscannerCode}>
+                      {airport.Name}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          </div>
+
+          <div className={styles.dates}>
+            <div className={styles.departureDate}>
+              <label htmlFor="date">Departure</label>
+              <input
+                className={styles.date1}
+                type="date"
+                name="date1"
+                id="date"
+                min={today}
+                value={date}
+                onChange={(date) => setDate(date.target.value)}
+              />
+            </div>
+
+            <div className={styles.arrivalDate}>
+              <label htmlFor="date2">Return</label>
+              <input
+                className={styles.date2}
+                type="date"
+                name="date2"
+                id="date"
+                min={today}
+                value={date}
+                onChange={(date) => setDate(date.target.value)}
+              />
+            </div>
+          </div>
+          <div className={styles.btnContainer}>
+            <button className={styles.submit}>Search</button>
+          </div>
+        </form>
+      </div>
       <div className={styles.contentWrapper}>
         <div className={styles.tableDiv}>
           <table>
             <thead>
               <tr>
-                <th>Från</th>
-                <th>Till</th>
-                <th>Pris</th>
-                <th>Direktflyg</th>
-                <th>Avgångsdatum</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Price</th>
+                <th>Direct flights</th>
+                <th>Departure</th>
               </tr>
             </thead>
             <tbody>
