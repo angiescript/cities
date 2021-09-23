@@ -7,7 +7,6 @@ const cityArray = [
   "rio de janeiro",
   "ottawa",
   "copenhagen",
-  "Påarp",
   "Sydney",
   "Jamestown",
   "Beijing",

@@ -4,7 +4,7 @@ import { useHistory, useParams } from "react-router-dom";
 import Currency from "../../components/Currency";
 import Weather from "../../components/Weather";
 import CityDescription from "../../components/CityDescription";
-import CityImage from "../../components/CItyImage";
+import CityImage from "../../components/CityImage";
 import BackButton from "../../components/BackButton";
 
 const Citypage = ({ cityInfo }) => {
