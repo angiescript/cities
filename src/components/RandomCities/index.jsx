@@ -76,7 +76,7 @@ const RandomCities = ({ setCityInfo }) => {
       {!!finalRandomArray.length &&
         finalRandomArray.map((city) => (
           <div className={styles.eachCity} onClick={() => handleClick(city)} key={city.city}>
-            <CityImage query={city.city} />
+            <CityImage query={city.city} size={"regular"} />
             <p>{city.city}</p>
           </div>
         ))}

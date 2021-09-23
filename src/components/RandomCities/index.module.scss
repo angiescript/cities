@@ -1,0 +1,16 @@
+.eachCity {
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.13);
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.301);
+  margin: 1rem;
+  width: calc(100% / 3 - 6rem);
+  img {
+    width: 100%;
+    border-radius: 4px;
+    // height: 300px;
+    object-fit: contain;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}

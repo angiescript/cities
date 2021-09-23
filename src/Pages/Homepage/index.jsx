@@ -4,6 +4,8 @@ import React from "react";
 import styles from "./index.module.scss";
 import { useHistory } from "react-router-dom";
 import RandomCities from "../../components/RandomCities";
+import CityImage from "../../components/CityImage";
+import { combineClasses } from "../../utils";
 
 const Homepage = ({ setCityInfo }) => {
   const history = useHistory();
@@ -64,7 +66,7 @@ const Homepage = ({ setCityInfo }) => {
       setNoCities(false);
       return <></>;
     } else if (noCities) {
-      return <li>Sorry, no results</li>;
+      return <li className={styles.noResults}>Sorry, no results</li>;
     }
 
     return cities.map((city) => {
@@ -73,27 +75,42 @@ const Homepage = ({ setCityInfo }) => {
       if (cities.length >= 1) {
         return (
           <li key={city.id} onClick={() => handleClick(city)}>
-            {city.name} <p>({city.country})</p>
+            <span className={styles.name}>{city.name}</span>
+            <span className={styles.country}>({city.country})</span>
           </li>
         );
       } else return null;
     });
   };
 
+  const scrollOnClick = () => {
+    window.scrollTo({
+      top: window.innerHeight - 65,
+      left: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div className={styles.main}>
-      <div className={styles.paper}>
-        <div className={styles.banner}>
-          <img src="https://via.placeholder.com/250" alt="placeholder" />
+      <div className={styles.heroDiv}>
+        <div className={styles.heroImage}>
+          <CityImage query={"city skyline"} size={"full"} />
+        </div>
+        <div className={styles.overlay} />
 
-          <div>
+        <div className={styles.banner}>
+          <div className={styles.headline}>
             <h1>Cities!</h1>
-            <p>A lot of cities. Great info.</p>
+            <p>Great cities. Great info.</p>
+          </div>
+          <div className={styles.searchDiv}>
             <form>
               <input
+                className={combineClasses(styles.input, cities.length && styles.removeBorderRadius)}
                 spellCheck="false"
                 type="text"
-                placeholder="Search for a city"
+                placeholder="Search for a city..."
                 value={term}
                 onChange={(e) => setTerm(e.target.value)}
               />
@@ -102,20 +119,16 @@ const Homepage = ({ setCityInfo }) => {
               <ul>{renderDropdown()}</ul>
             </div>
           </div>
-        </div>
-        <div className={styles.featuredCity}>
-          <img src="https://via.placeholder.com/400x250" alt="poster" />
-          <div className={styles.featuredCityTextbox}>
-            <h1>Featured city!</h1>
-
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque labore facilis perferendis adipisci amet
-              expedita tempore sapiente accusamus incidunt ab voluptates commodi quis quos, nemo consequatur autem aut
-              fugiat est!
-            </p>
+          <div className={styles.scrollDownContainer} onClick={() => scrollOnClick()}>
+            Scroll Down
+            <i className={combineClasses("fas fa-chevron-down", styles.scrollDownIcon)}></i>
           </div>
         </div>
-        <div className={styles.otherCities}>
+      </div>
+
+      <div className={styles.featuredCities}>
+        <h1>Featured Cities</h1>
+        <div className={styles.cardsDiv}>
           <RandomCities setCityInfo={setCityInfo} />
         </div>
       </div>
