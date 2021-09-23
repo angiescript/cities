@@ -4,72 +4,148 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import BackButton from "../../components/BackButton";
 
+
+
 const Skyscannerapi = ({ cityInfo }) => {
   const city = cityInfo.city;
 
   const [quotes, setQuotes] = useState([]);
   const [flightData, setFlightData] = useState([]);
-  const [airports, setAirports] = useState([]);
+  const [sweAirports, setSweAirports] = useState([]);
+  const [notSweAirports, setNotSweAirports] = useState([]);
+  const [date, setDate] = useState(null);
 
-  // Fetch request with "searchTerm (london)", to access 'cityId'
+  const fetchAirportsByCity = async (city) => {
+    const config = {
+      params: { query: `${city}` },
+      headers: {
+        "x-rapidapi-host":
+          "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+        "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
+      },
+    };
+
+    await axios
+      .get(
+        "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/SE/SEK/SE/",
+        config
+      )
+      .then((response) => {
+        fetchFlightsByCityId(response.data.Places[0].CityId);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
+
+  const fetchFlightsByCityId = async (cityId) => {
+    const config = {
+      headers: {
+        "x-rapidapi-host":
+          "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+        "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
+      },
+    };
+
+    await axios
+      .get(
+        `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/SE/SEK/SE/SE-sky/${cityId}/anytime`,
+        config
+      )
+      .then((response) => {
+        setFlightData(response.data);
+        setQuotes(response.data.Quotes);
+        let swe = response.data.Places.filter(
+          (airport) => airport.CountryName === "Sweden"
+        );
+        let notSwe = response.data.Places.filter(
+          (airport) => airport.CountryName !== `Sweden`
+        );
+        setSweAirports(swe.sort((a, b) => (a.Name > b.Name && 1) || -1));
+        setNotSweAirports(notSwe.sort((a, b) => (a.Name > b.Name && 1) || -1));
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
+
+  const fetchSpecificFlights = async (from, to, date) => {
+    const config = {
+      headers: {
+        "x-rapidapi-host":
+          "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+        "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
+      },
+    };
+
+    await axios
+      .get(
+        `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/SE/SEK/SE/${from}/${to}/${date}`,
+        config
+      )
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
+
   useEffect(() => {
-    const fetchAirportsByCity = async (city) => {
-      const config = {
-        params: { query: `${city}` },
-        headers: {
-          "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-          "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
-        },
-      };
-
-      await axios
-        .get(
-          "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/SE/SEK/SE/",
-          config
-        )
-        .then((response) => {
-          // console.table(response.data.Places); // Airports in with searchterm "city"
-          // console.log(response.data.Places[0].CityId); // First object contains "Overall-CityId" - too include all airports
-          setAirports(response.data.Places);
-          fetchFlightsByCityId(response.data.Places[0].CityId);
-        })
-        .catch(function (error) {
-          console.error(error);
-        });
-    };
-
-    // Fetch request with 'cityId', to search flights including all airports in london
-    const fetchFlightsByCityId = async (cityId) => {
-      const config = {
-        headers: {
-          "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-          "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
-        },
-      };
-
-      await axios
-        .get(
-          `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/SE/SEK/SE/SE-sky/${cityId}/anytime`,
-          config
-        )
-        .then((response) => {
-          setFlightData(response.data);
-          setQuotes(response.data.Quotes);
-        })
-        .catch(function (error) {
-          console.error(error);
-        });
-    };
-
     fetchAirportsByCity(city);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(`Från: ${from}`);
+    console.log(`Till: ${to}`);
+    console.log(`Datum: ${date}`);
+    fetchSpecificFlights(from, to);
+
+  };
 
   return (
     <div className={styles.widgetContainer}>
-      <BackButton url={`/${cityInfo.city}`} />
       <h2>Hitta de billigaste flygbiljetterna!</h2>
       <h3>På alla flygplatser i Sverige till alla flygplatser i {city}</h3>
+      <form onSubmit={handleSubmit}>
+        <select
+          name="value1"
+          id="value2"
+          onChange={(value1) => setFrom(value1.target.value)}
+        >
+          <option>Från:</option>
+          <option value="SE-sky">Sverige</option>
+          {sweAirports.map((airport) => {
+            return (
+              <option key={airport.Name} value={airport.SkyscannerCode}>
+                {airport.Name}
+              </option>
+            );
+          })}
+        </select>
+        <select
+          name="value2"
+          id="value2"
+          onChange={(value2) => setTo(value2.target.value)}
+        >
+          <option>Till:</option>
+          {notSweAirports.map((airport) => {
+            return (
+              <option key={airport.Name} value={airport.SkyscannerCode}>
+                {airport.Name}
+              </option>
+            );
+          })}
+        </select>
+
+        <div></div>
+        <input type="date" name="date" id="date" value={date} onChange={(date) => setDate(date.target.value)} />
+        <button>Sök</button>
+      </form>
       <div className={styles.contentWrapper}>
         <div className={styles.tableDiv}>
           <table>
@@ -103,7 +179,6 @@ const Skyscannerapi = ({ cityInfo }) => {
                       <td>{departureDate}</td>
                     </tr>
                   );
-                else return null;
               })}
             </tbody>
           </table>
