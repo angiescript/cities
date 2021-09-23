@@ -12,6 +12,7 @@ body {
 }
 
 .main {
+  margin-top: -80px;
   .heroDiv {
     display: grid;
     grid-template-areas: "heroImage";
@@ -45,16 +46,16 @@ body {
       position: relative;
       .headline {
         position: absolute;
-        top: 25%;
+        top: 20%;
         color: white;
         h1 {
-          font-size: 5rem;
+          font-size: 6rem;
           letter-spacing: 2px;
-          font-weight: 300;
+          font-weight: 200;
         }
         > p {
           font-size: 2rem;
-          margin-top: 2rem;
+          margin-top: 1rem;
           font-weight: 200;
         }
       }
@@ -99,7 +100,7 @@ body {
       }
       .scrollDownContainer {
         position: absolute;
-        top: calc(100vh - 75px);
+        top: calc(100vh - 120px);
         font-weight: 200;
         font-size: 1.5em;
         color: white;
@@ -109,6 +110,7 @@ body {
         }
 
         .scrollDownIcon {
+          margin-top: 1rem;
           display: block;
           animation: bounce 2s infinite;
         }
@@ -161,7 +163,12 @@ body {
   display: flex;
   flex-direction: column;
   text-align: center;
-  margin-top: 2rem;
+  padding-top: 2rem;
+  position: relative;
+  height: 550px;
+  background-color: rgba(143, 139, 137, 0.541);
+  // color: white;
+
   h1 {
     font-size: 3rem;
     font-weight: 200;
@@ -169,7 +176,21 @@ body {
   .cardsDiv {
     display: flex;
     flex-wrap: wrap;
+    flex-grow: 1;
     justify-content: center;
+    position: absolute;
+    top: 120px;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .featuredCities {
+    min-height: 500px;
+    height: fit-content;
+    .cardsDiv {
+      flex-direction: column;
+    }
   }
 }
 

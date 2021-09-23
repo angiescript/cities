@@ -1,32 +1,27 @@
 import React from "react";
 import styles from "./index.module.scss";
-import {Link} from 'react-router-dom';
-import {useState} from "react";
+import { Link, useHistory } from "react-router-dom";
+import { useState } from "react";
 import cityArray from "../../Pages/Homepage/cityArray";
-
 
 const Navbar = () => {
   const randomCities = cityArray;
-  const [randomCity, setRandomCity] = useState([]);
-    
-  const generateRandomCity = () =>{
-    const randomCity = randomCities[Math.floor(Math.random() * (randomCities.length + 1))];
+  const [randomCity, setRandomCity] = useState("");
+  const history = useHistory();
+
+  const generateRandomCity = () => {
+    const randomCity = randomCities[Math.floor(Math.random() * randomCities.length)];
     setRandomCity(randomCity);
+    history.push(`/${randomCity}`);
   };
   return (
     <div className={styles.navbar}>
-     <div className="navbar">
-        <Link to={"/"}>
-        <h4>Home</h4>
-        </Link>
-        <div className="links">
-          <Link className="randomCity" to={`/${randomCity}`}>
-          <button onClick ={generateRandomCity}>random city</button>
-          </Link>
-        </div>
-      </div>
+      <i className="fas fa-globe" onClick={() => history.push("/")}></i>
+      <p onClick={() => history.push("/")}>Home</p>
+
+      <p onClick={() => generateRandomCity()}>Random City</p>
     </div>
-  ); 
+  );
 };
 
 export default Navbar;

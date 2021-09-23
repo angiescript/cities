@@ -102,7 +102,7 @@ const Homepage = ({ setCityInfo }) => {
         <div className={styles.banner}>
           <div className={styles.headline}>
             <h1>Cities!</h1>
-            <p>Great cities. Great info.</p>
+            <p>Great cities. Questionable info.</p>
           </div>
           <div className={styles.searchDiv}>
             <form>
@@ -120,7 +120,7 @@ const Homepage = ({ setCityInfo }) => {
             </div>
           </div>
           <div className={styles.scrollDownContainer} onClick={() => scrollOnClick()}>
-            Scroll Down
+            Featured Cities
             <i className={combineClasses("fas fa-chevron-down", styles.scrollDownIcon)}></i>
           </div>
         </div>

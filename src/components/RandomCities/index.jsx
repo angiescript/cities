@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import cityArray from "../../Pages/Homepage/cityArray";
 import styles from "./index.module.scss";
 import CityImage from "../CityImage";
+import { combineClasses } from "../../utils";
 
 const RandomCities = ({ setCityInfo }) => {
   const numbersArray = useRef([]);
@@ -73,9 +74,22 @@ const RandomCities = ({ setCityInfo }) => {
 
   return (
     <>
+      {!finalRandomArray.length && (
+        <div className={styles.loading}>
+          <p>Loading</p>
+          <span>.</span>
+          <span>.</span>
+          <span>.</span>
+        </div>
+      )}
+
       {!!finalRandomArray.length &&
         finalRandomArray.map((city) => (
-          <div className={styles.eachCity} onClick={() => handleClick(city)} key={city.city}>
+          <div
+            className={combineClasses(styles.eachCity, !!finalRandomArray && styles.contentLoaded)}
+            onClick={() => handleClick(city)}
+            key={city.city}
+          >
             <CityImage query={city.city} size={"regular"} />
             <p>{city.city}</p>
           </div>

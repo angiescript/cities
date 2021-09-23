@@ -22,7 +22,7 @@ const Citypage = ({ cityInfo }) => {
         <div className={styles.banner}>
           <BackButton url={"/"} />
           <div>
-            <CityImage query={cityName} />
+            <CityImage query={cityName} size={"small"} />
           </div>
           <div className={styles.cityInfo}>
             <Weather query={cityName} lon={cityInfo.longitude} lat={cityInfo.latitude} open={weatherOpen} />
