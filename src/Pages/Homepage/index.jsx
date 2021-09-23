@@ -9,9 +9,11 @@ import { combineClasses } from "../../utils";
 
 const Homepage = ({ setCityInfo }) => {
   const history = useHistory();
+
   const [cities, setCities] = useState([]);
   const [term, setTerm] = useState("");
   const [noCities, setNoCities] = useState(false);
+  const [onSubmitCity, setOnSubmitCity] = useState([]);
 
   const fetchData = async (query) => {
     var options = {
@@ -35,6 +37,7 @@ const Homepage = ({ setCityInfo }) => {
       .then((response) => {
         setCities(response.data.data);
         setCityInfo(response.data.data[0]);
+        setOnSubmitCity(response.data.data[0]);
 
         if (response.data.data.length > 0) {
           setNoCities(false);
@@ -59,6 +62,11 @@ const Homepage = ({ setCityInfo }) => {
   const handleClick = (city) => {
     setCityInfo(city);
     history.push(city.city);
+  };
+
+  const handleSubmit = () => {
+    setCityInfo(onSubmitCity);
+    history.push(onSubmitCity.city);
   };
 
   const renderDropdown = () => {
@@ -86,7 +94,7 @@ const Homepage = ({ setCityInfo }) => {
   const scrollOnClick = () => {
     window.scrollTo({
       top: window.innerHeight - 65,
-      left: 0,
+      left: 0, 
       behavior: "smooth",
     });
   };
@@ -105,7 +113,7 @@ const Homepage = ({ setCityInfo }) => {
             <p>Great cities. Great info.</p>
           </div>
           <div className={styles.searchDiv}>
-            <form>
+            <form onSubmit={handleSubmit}>
               <input
                 className={combineClasses(styles.input, cities.length && styles.removeBorderRadius)}
                 spellCheck="false"
