@@ -13,22 +13,21 @@ const Currency = ({ cityInfo, open }) => {
   const [selectedCurrency, setSelectedCurrency] = useState("");
   const [currentRate, setCurrentRate] = useState(0);
   const [calculatedAmount, setCalculatedAmount] = useState(0);
-
   useEffect(() => {
     const fetchCurrency = async () => {
       const result = await axios(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/${baseCurrency}`);
       setConRate(result.data.conversion_rates);
 
-      const countryResult = await axios(`https://restcountries.eu/rest/v2/name/${country}`);
+      const countryResult = await axios(`https://restcountries.com/v2/name/${country}`);
       setSelectedCurrency(countryResult.data[0].currencies[0].code);
 
       setCurrencyList([countryResult.data[0].currencies[0].code, ...Object.keys(result.data.conversion_rates)]);
+     
     };
     fetchCurrency();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   useEffect(() => {
     for (const currency in conRate) {
       if (currency === selectedCurrency) {
