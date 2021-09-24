@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { useHistory } from "react-router-dom";
 
@@ -8,6 +8,7 @@ import axios from "axios";
 const Navbar = ({ cityInfo, setCityInfo }) => {
   const randomCities = cityArray;
   const history = useHistory();
+  const [searchLoaded, setSearchLoaded] = useState(false);
 
   const fetchData = async (query) => {
     var options = {
@@ -39,13 +40,14 @@ const Navbar = ({ cityInfo, setCityInfo }) => {
   const generateRandomCity = async () => {
     const randomCity = randomCities[Math.floor(Math.random() * randomCities.length)];
     await fetchData(randomCity);
+    setSearchLoaded(true);
   };
 
   useEffect(() => {
-    if (Object.keys(cityInfo).length !== 0) {
+    if (searchLoaded) {
       history.push(`/${cityInfo.city}`);
     }
-  }, [cityInfo]);
+  }, [searchLoaded]);
 
   return (
     <div className={styles.navbar}>
