@@ -36,7 +36,6 @@ const Homepage = ({ setCityInfo, cityInfo }) => {
       .request(options)
       .then((response) => {
         setCities(response.data.data);
-        setCityInfo(response.data.data[0]);
         setOnSubmitCity(response.data.data[0]);
 
         if (response.data.data.length > 0) {
@@ -52,7 +51,7 @@ const Homepage = ({ setCityInfo, cityInfo }) => {
     if (term.length > 1) {
       const timeoutId = setTimeout(() => {
         fetchData(term);
-      }, 700);
+      }, 500);
       return () => clearTimeout(timeoutId);
     } else return;
   }, [term]);
@@ -69,6 +68,8 @@ const Homepage = ({ setCityInfo, cityInfo }) => {
       await fetchData(term);
       setSearchLoaded(true);
     } else {
+      setCityInfo(onSubmitCity);
+      history.push(onSubmitCity.city);
     }
   };
 
@@ -126,7 +127,10 @@ const Homepage = ({ setCityInfo, cityInfo }) => {
           <div className={styles.searchDiv}>
             <form onSubmit={(e) => handleSubmit(e)}>
               <input
-                className={combineClasses(styles.input, cities.length && styles.removeBorderRadius)}
+                className={combineClasses(
+                  styles.input,
+                  cities.length && styles.removeBorderRadius
+                )}
                 spellCheck="false"
                 type="text"
                 placeholder="Search for a city..."
@@ -138,9 +142,17 @@ const Homepage = ({ setCityInfo, cityInfo }) => {
               <ul>{renderDropdown()}</ul>
             </div>
           </div>
-          <div className={styles.scrollDownContainer} onClick={() => scrollOnClick()}>
+          <div
+            className={styles.scrollDownContainer}
+            onClick={() => scrollOnClick()}
+          >
             Featured Cities
-            <i className={combineClasses("fas fa-chevron-down", styles.scrollDownIcon)}></i>
+            <i
+              className={combineClasses(
+                "fas fa-chevron-down",
+                styles.scrollDownIcon
+              )}
+            ></i>
           </div>
         </div>
       </div>
