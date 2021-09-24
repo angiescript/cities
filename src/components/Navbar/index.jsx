@@ -42,7 +42,7 @@ const Navbar = ({ cityInfo, setCityInfo }) => {
   };
 
   useEffect(() => {
-    if (cityInfo) {
+    if (Object.keys(cityInfo).length !== 0) {
       history.push(`/${cityInfo.city}`);
     }
   }, [cityInfo]);
