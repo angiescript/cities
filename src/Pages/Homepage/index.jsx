@@ -66,8 +66,8 @@ const Homepage = ({ setCityInfo, cityInfo }) => {
     e.preventDefault();
 
     if (term.length > 1 && cities.length < 1) {
-      console.log("SEND REQUEST HERE");
       await fetchData(term);
+      setSearchLoaded(true);
     } else {
     }
   };
