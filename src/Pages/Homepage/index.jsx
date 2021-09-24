@@ -64,7 +64,8 @@ const Homepage = ({ setCityInfo }) => {
     history.push(city.city);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setCityInfo(onSubmitCity);
     history.push(onSubmitCity.city);
   };
@@ -94,7 +95,7 @@ const Homepage = ({ setCityInfo }) => {
   const scrollOnClick = () => {
     window.scrollTo({
       top: window.innerHeight - 65,
-      left: 0, 
+      left: 0,
       behavior: "smooth",
     });
   };
@@ -113,7 +114,7 @@ const Homepage = ({ setCityInfo }) => {
             <p>Great cities. Questionable info.</p>
           </div>
           <div className={styles.searchDiv}>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e) => handleSubmit(e)}>
               <input
                 className={combineClasses(styles.input, cities.length && styles.removeBorderRadius)}
                 spellCheck="false"

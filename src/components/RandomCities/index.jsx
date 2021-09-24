@@ -28,7 +28,7 @@ const RandomCities = ({ setCityInfo }) => {
           },
           headers: {
             "x-rapidapi-host": "wft-geo-db.p.rapidapi.com",
-            "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
+            "x-rapidapi-key": "12c8f6f075msh6a2c8f1f1de64b6p18b1bejsn5144d13d70a6",
           },
         };
 
