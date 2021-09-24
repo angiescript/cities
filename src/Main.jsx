@@ -10,7 +10,7 @@ const Main = () => {
   return (
     <div>
       <Route exact path="/">
-        <Homepage setCityInfo={setCityInfo} />
+        <Homepage setCityInfo={setCityInfo} cityInfo={cityInfo} />
       </Route>
       <Route exact path="/:query">
         <Citypage cityInfo={cityInfo} />

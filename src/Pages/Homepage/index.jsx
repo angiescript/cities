@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import styles from "./index.module.scss";
 import { useHistory } from "react-router-dom";
@@ -7,7 +7,7 @@ import RandomCities from "../../components/RandomCities";
 import CityImage from "../../components/CityImage";
 import { combineClasses } from "../../utils";
 
-const Homepage = ({ setCityInfo }) => {
+const Homepage = ({ setCityInfo, cityInfo }) => {
   const history = useHistory();
 
   const [cities, setCities] = useState([]);
@@ -52,11 +52,9 @@ const Homepage = ({ setCityInfo }) => {
     if (term.length > 1) {
       const timeoutId = setTimeout(() => {
         fetchData(term);
-      }, 500);
+      }, 700);
       return () => clearTimeout(timeoutId);
     } else return;
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [term]);
 
   const handleClick = (city) => {
@@ -64,10 +62,22 @@ const Homepage = ({ setCityInfo }) => {
     history.push(city.city);
   };
 
-  const handleSubmit = () => {
-    setCityInfo(onSubmitCity);
-    history.push(onSubmitCity.city);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (term.length > 1 && cities.length < 1) {
+      console.log("SEND REQUEST HERE");
+      await fetchData(term);
+    } else {
+     
+    }
   };
+
+  useEffect(() => {
+    if (Object.keys(onSubmitCity).length !== 0) {
+      history.push(onSubmitCity.city);
+    }
+  }, [cityInfo]);
 
   const renderDropdown = () => {
     if (noCities && term.length < 1) {
@@ -78,7 +88,9 @@ const Homepage = ({ setCityInfo }) => {
     }
 
     return cities.map((city) => {
-      if (term < 1) setCities([]);
+      if (term < 1) {
+        setCities([]);
+      }
 
       if (cities.length >= 1) {
         return (
@@ -94,7 +106,7 @@ const Homepage = ({ setCityInfo }) => {
   const scrollOnClick = () => {
     window.scrollTo({
       top: window.innerHeight - 65,
-      left: 0, 
+      left: 0,
       behavior: "smooth",
     });
   };
@@ -115,7 +127,10 @@ const Homepage = ({ setCityInfo }) => {
           <div className={styles.searchDiv}>
             <form onSubmit={handleSubmit}>
               <input
-                className={combineClasses(styles.input, cities.length && styles.removeBorderRadius)}
+                className={combineClasses(
+                  styles.input,
+                  cities.length && styles.removeBorderRadius
+                )}
                 spellCheck="false"
                 type="text"
                 placeholder="Search for a city..."
@@ -127,9 +142,17 @@ const Homepage = ({ setCityInfo }) => {
               <ul>{renderDropdown()}</ul>
             </div>
           </div>
-          <div className={styles.scrollDownContainer} onClick={() => scrollOnClick()}>
+          <div
+            className={styles.scrollDownContainer}
+            onClick={() => scrollOnClick()}
+          >
             Featured Cities
-            <i className={combineClasses("fas fa-chevron-down", styles.scrollDownIcon)}></i>
+            <i
+              className={combineClasses(
+                "fas fa-chevron-down",
+                styles.scrollDownIcon
+              )}
+            ></i>
           </div>
         </div>
       </div>

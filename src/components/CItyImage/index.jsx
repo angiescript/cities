@@ -10,7 +10,6 @@ const CityImage = ({ query, size }) => {
       try {
         const getPhoto = await axios.get(`https://api.unsplash.com/search/photos?query=${query}&client_id=${apiKey}`);
         // console.log(getPhoto.data.results.sort((a, b) => b.likes - a.likes));
-        console.log(getPhoto.data.results[0].urls);
         setImgUrl(getPhoto.data.results[0].urls[size]);
       } catch (error) {
         console.dir(error);
