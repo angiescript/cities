@@ -13,6 +13,7 @@ body {
 
 .main {
   margin-top: -80px;
+  overflow-x: hidden;
   .heroDiv {
     display: grid;
     grid-template-areas: "heroImage";
@@ -186,8 +187,7 @@ body {
 
 @media screen and (max-width: 768px) {
   .featuredCities {
-    min-height: 500px;
-    height: fit-content;
+    min-height: 1400px;
     .cardsDiv {
       flex-direction: column;
     }

@@ -16,6 +16,8 @@ const Citypage = ({ cityInfo }) => {
   const history = useHistory();
   const cityName = capitalizeFirstLetter(useParams().query);
 
+  if (!cityInfo) return <>no data</>;
+
   return (
     <div className={styles.main}>
       <div className={styles.paper}>

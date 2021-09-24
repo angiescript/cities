@@ -29,7 +29,7 @@ const Weather = ({ query, lon, lat, open }) => {
     getData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [query]);
 
   useEffect(() => {
     let boolean = true;

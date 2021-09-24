@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Route } from "react-router-dom";
 import Citypage from "./Pages/Citypage";
 import Homepage from "./Pages/Homepage";
 import Sightspage from "./Pages/Sightspage";
 import Flightspage from "./Pages/Flightspage";
 
-const Main = () => {
-  const [cityInfo, setCityInfo] = useState({});
+const Main = ({ cityInfo, setCityInfo }) => {
   return (
     <div>
       <Route exact path="/">

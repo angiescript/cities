@@ -125,7 +125,7 @@ const Homepage = ({ setCityInfo, cityInfo }) => {
             <p>Great cities. Questionable info.</p>
           </div>
           <div className={styles.searchDiv}>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e) => handleSubmit(e)}>
               <input
                 className={combineClasses(
                   styles.input,
