@@ -59,6 +59,9 @@ const Sightspage = ({ cityInfo }) => {
     if (allSights.length > 0) {
       allSights.map((value) => {
         fetchSightsID(value.xid);
+        return ( 
+          <></>
+        )
       });
     }
   }, [allSights]);

@@ -115,7 +115,7 @@ const Homepage = ({ setCityInfo, cityInfo }) => {
     <div className={styles.main}>
       <div className={styles.heroDiv}>
         <div className={styles.heroImage}>
-          <CityImage query={"city skyline"} size={"full"} />
+          <CityImage query={"city skyline"} size={"full"} /> 
         </div>
         <div className={styles.overlay} />
 

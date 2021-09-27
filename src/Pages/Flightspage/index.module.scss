@@ -2,28 +2,154 @@
 
 // Variables
 $boxShadow: 0px 0px 21px 0px rgba(0, 0, 0, 0.281);
-$headingColor: rgb(58, 120, 255);
+$headingColor: rgb(83, 114, 253);
 $textColor: rgb(68, 68, 68);
+$inputFiledColor: rgba(255, 255, 255, 0.863);
 
 * {
   margin: 0;
   padding: 0;
 }
-.contentWrapper {
+
+.poster {
   display: flex;
-  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+  background-image: url("https://www.gannett-cdn.com/presto/2019/03/28/USAT/dc4a16bd-c6d5-49b2-97be-2d693d714f85-GettyImages-887546562.jpg");
+  background-position-x: center;
+  background-position-y: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-bottom: 70px;
+  padding-bottom: 30px;
+
+  h2,
+  h3 {
+    text-align: center;
+  }
 }
+
+.formContainer {
+  border-radius: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(61, 60, 60, 0.918);
+  width: 800px;
+  height: auto;
+  box-shadow: $boxShadow;
+  margin-bottom: 3rem;
+  margin-top: 5rem;
+  padding-bottom: 2rem;
+
+  .dates {
+    display: flex;
+
+    .departureDate,
+    .arrivalDate {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      label {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin-bottom: 5px;
+        color: white;
+      }
+
+      input {
+        display: inline-block;
+        width: 100%;
+        height: 2.25rem;
+        padding: 0.375rem 0.75rem;
+        border: solid 0.0625rem #b2b2bf;
+        border-radius: 0.25rem;
+        background: $inputFiledColor;
+        color: #111236;
+        appearance: none;
+        box-sizing: border-box;
+        margin-bottom: 0.25rem;
+        height: 2.25rem !important;
+        width: 100% !important;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+.destinations {
+  display: flex;
+
+  .from,
+  .to {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    label {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      margin-bottom: 5px;
+      color: white
+    }
+
+    select {
+      display: inline-block;
+      width: 100%;
+      height: 2.25rem;
+      padding: 0.375rem 0.75rem;
+      border: solid 0.0625rem #b2b2bf;
+      border-radius: 0.25rem;
+      background: $inputFiledColor;
+      color: #111236;
+      appearance: none;
+      box-sizing: border-box;
+      margin-bottom: 0.25rem;
+      height: 2.25rem !important;
+      width: 100% !important;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.btnContainer {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+
+  .submit {
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    color: white;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    padding: 0.375rem 1.125rem;
+    background-image: linear-gradient(-180deg, #00a698 0%, #00a698 100%);
+    border-radius: 8px;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+}
+
 .widgetContainer {
-  padding-top: 30px;
   display: flex;
   align-items: center;
   flex-direction: column;
   position: relative;
 
   h2 {
-    margin-top: 20px;
+    margin-top: 40px;
     padding-bottom: 15px;
-    font-size: 49px;
+    font-size: 55px;
     font-family: "Montserrat", sans-serif;
     font-weight: 800;
     margin-bottom: 0;
@@ -31,73 +157,19 @@ $textColor: rgb(68, 68, 68);
   }
 
   h3 {
-    font-family: "Montserrat", sans-serif;
     font-weight: 300;
-    margin-bottom: 20px;
+    font-size: 28px;
+    margin-bottom: 30px;
     color: $textColor;
   }
 
-  iframe {
-    background-color: white;
-    border: none;
-    height: 400px;
-    padding: 30px;
-    width: 100%;
-    border-radius: 5px;
-    margin-top: 30px;
-    box-shadow: $boxShadow;
-    margin-bottom: 20px;
-  }
-
-  table {
-    border-collapse: separate;
-    border-spacing: 0 1em;
-    -webkit-text-stroke-width: thin;
-    color: $textColor;
-    width: 100%;
-    padding: 20px;
-    background-color: rgb(245, 245, 245);
-    border-radius: 5px;
-    padding: 15px;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 18px;
-    text-align: left;
-
-    tr th {
-      font-size: 18px;
-      color: $textColor;
-      border-bottom: solid black 1px;
-    }
-
-    tbody tr {
-      background-color: rgb(255, 255, 255);
-      height: 3.5rem;
-      border-radius: 10px;
-      border: none;
-      margin-bottom: 10px;
-
-      &:hover {
-        transform: scale(1.02);
-        cursor: pointer;
-      }
-    }
-
-    tr td {
-      margin: 5px 10px 5px 10px;
-      padding: 10px;
-    }
-
-    .price {
-      font-weight: 500;
-      color: rgb(62, 129, 253);
-    }
-  }
+  
 }
 
-.tableDiv {
-  width: 100%;
-  max-height: 480px;
-  overflow: auto;
-  scroll-behavior: smooth;
-  box-shadow: $boxShadow;
+.reset {
+  padding: 10px; 
+  width: fit-content;
+  border-radius: 5px;
+  color: white;
+  background-color: rgb(255, 74, 74);
 }
