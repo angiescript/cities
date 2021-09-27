@@ -29,7 +29,7 @@ const Sightspage = ({ cityInfo }) => {
           src_attr: "wikidata",
           rate: "3",
           format: "json",
-          limit: "8",
+          limit: "7",
           apikey: "5ae2e3f221c38a28845f05b630581e70e6cfc50c2a260ad2cdbca93e",
         },
       }
@@ -65,12 +65,16 @@ const Sightspage = ({ cityInfo }) => {
 
   return (
     <div className={styles.main}>
+       <div className={styles.headline}>
+            <h2>Interesting places to visit in {cityName}</h2>
+          </div>
+
       <div className={styles.paper}>
         <div className={styles.banner}>
-          <BackButton url={`/${cityName}`} />
-          <h2>Interesting places to visit in {cityName}:</h2>
+
+        <BackButton url={`/${cityName}`} className={styles.backButton}/>
           <div className={styles.optionBox}>
-            <label for="cars">Category</label>
+            <label for="cars">Choose category</label>
             <br></br>
             <select id="category" onChange={handleChange}>
               <option value="interesting_places">Interesting Sights</option>
@@ -80,13 +84,17 @@ const Sightspage = ({ cityInfo }) => {
               <option value="amusements">Amusements</option>
             </select>
           </div>
+          
           <div className={styles.sightsBox}>
             {fullSightsInfo.map((sight, index) => {
               return (
                 <div className={styles.sight} key={index}>
                   <img src={sight.preview.source} alt={sight.wikipedia_extracts.title} />
                   <h3>{sight.name}</h3>
-                  <>{sight.wikipedia_extracts.text}</>
+                  <p>{sight.wikipedia_extracts.text}</p>
+                  <form action={sight.otm} target="_blank">
+                    <input type="submit" value="Read more" />
+                  </form>
                 </div>
               );
             })}
