@@ -19,10 +19,13 @@ const FlightsBoard = ({ quotes, flightData }) => {
               let departureFromAirport = flightData.Places.find(
                 (place) => dest.OutboundLeg.OriginId === place.PlaceId
               ).Name;
+
               let arriveToAirport = flightData.Places.find(
                 (place) => dest.OutboundLeg.DestinationId === place.PlaceId
               ).Name;
+
               let departureDate = dest.OutboundLeg.DepartureDate.slice(0, 10);
+              
               let direct = "";
 
               if (dest.Direct === true ? (direct = "Yes") : (direct = "No"))

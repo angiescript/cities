@@ -12,7 +12,7 @@ const Skyscannerapi = ({ cityInfo }) => {
   const [flightData, setFlightData] = useState([]);
   const [sweAirports, setSweAirports] = useState([]);
   const [notSweAirports, setNotSweAirports] = useState([]);
-  const [departureDate, setDepartureDate] = useState(null);
+  const [departureDate, setDepartureDate] = useState("");
   const [returnDate, setReturnDate] = useState(null);
 
   const [searchResult, setSearchResult] = useState([]);
@@ -72,17 +72,14 @@ const Skyscannerapi = ({ cityInfo }) => {
   };
 
   const fetchSpecificFlights = async (from, to, departureDate) => {
-    
-    let newDate = "";
 
-    if (departureDate == null) {
-      newDate = "anytime";
-    } else {
-       newDate = departureDate;
+    let newDate = "anytime";
+
+    if (departureDate !== "" ) {
+      newDate = departureDate;
     }
 
     const config = {
-     
       headers: {
         "x-rapidapi-host":
           "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
@@ -114,10 +111,6 @@ const Skyscannerapi = ({ cityInfo }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(`Från: ${from}`);
-    console.log(`Till: ${to}`);
-    console.log(`Datum: ${departureDate}`);
-
     fetchSpecificFlights(from, to, departureDate);
   };
 
@@ -127,6 +120,10 @@ const Skyscannerapi = ({ cityInfo }) => {
   let yyyy = today.getFullYear();
 
   today = `${yyyy}-${mm}-${dd}`;
+
+  const resetDate = () => {
+    setDepartureDate("");
+  }
 
   return (
     <div className={styles.widgetContainer}>
@@ -216,6 +213,7 @@ const Skyscannerapi = ({ cityInfo }) => {
               <div className={styles.btnContainer}>
                 <button className={styles.submit}>Search</button>
               </div>
+              <p className={styles.reset}onClick={() => resetDate()}>Reset date</p>
             </form>
           </div>
         </div>

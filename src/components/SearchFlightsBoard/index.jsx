@@ -18,10 +18,6 @@ const SearchFlightsBoard = ({ searchResult, flightData }) => {
 
             let departureDate = dest.OutboundLeg.DepartureDate.slice(0, 10);
 
-            let direct = "";
-            
-            if (dest.Direct === true ? (direct = "Yes") : (direct = "No"));
-
             return (
               <tr className={styles.flights} key={dest.QuoteId}>
                 <td className={styles.from}>{from}</td>
