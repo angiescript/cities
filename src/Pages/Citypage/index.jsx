@@ -10,11 +10,8 @@ import BackButton from "../../components/BackButton";
 const Citypage = ({ cityInfo }) => {
   const [weatherOpen, setWeatherOpen] = useState(false);
   const [currencyOpen, setCurrencyOpen] = useState(false);
-  const capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
   const history = useHistory();
-  const cityName = capitalizeFirstLetter(useParams().query);
+  const cityName = cityInfo.city;
 
   if (!cityInfo) return <>no data</>;
 
@@ -30,7 +27,7 @@ const Citypage = ({ cityInfo }) => {
             <Weather query={cityName} lon={cityInfo.longitude} lat={cityInfo.latitude} open={weatherOpen} />
             <Currency cityInfo={cityInfo} open={currencyOpen} />
             <h1>{cityName}</h1>
-            <CityDescription query={cityName} />
+            <CityDescription cityInfo={cityInfo} />
           </div>
 
           <div className={styles.additionalInfoBanner}>
