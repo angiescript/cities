@@ -28,7 +28,7 @@ const FlightsBoard = ({ quotes, flightData }) => {
               
               let direct = "";
 
-              if (dest.Direct === true ? (direct = "Yes") : (direct = "No"))
+              if (dest.Direct === true ? (direct = "Yes") : (direct = "No"));
                 return (
                   <tr className={styles.flights} key={dest.QuoteId}>
                     <td className={styles.from}>{departureFromAirport}</td>

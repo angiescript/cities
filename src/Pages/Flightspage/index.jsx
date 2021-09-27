@@ -13,7 +13,7 @@ const Skyscannerapi = ({ cityInfo }) => {
   const [sweAirports, setSweAirports] = useState([]);
   const [notSweAirports, setNotSweAirports] = useState([]);
   const [departureDate, setDepartureDate] = useState("");
-  const [returnDate, setReturnDate] = useState(null);
+  const [returnDate, setReturnDate] = useState("");
 
   const [searchResult, setSearchResult] = useState([]);
 
@@ -103,6 +103,7 @@ const Skyscannerapi = ({ cityInfo }) => {
 
   useEffect(() => {
     fetchAirportsByCity(city);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [from, setFrom] = useState("");
