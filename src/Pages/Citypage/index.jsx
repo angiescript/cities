@@ -23,14 +23,16 @@ const Citypage = ({ cityInfo }) => {
       <div className={styles.paper}>
         <div className={styles.banner}>
           <BackButton url={"/"} />
-          <div>
+          <div className={styles.cityDesc}>
             <CityImage query={cityName} size={"small"} />
+            <h1>{cityName}</h1>
+            <CityDescription query={cityName} />
           </div>
           <div className={styles.cityInfo}>
             <Weather query={cityName} lon={cityInfo.longitude} lat={cityInfo.latitude} open={weatherOpen} />
             <Currency cityInfo={cityInfo} open={currencyOpen} />
-            <h1>{cityName}</h1>
-            <CityDescription query={cityName} />
+            
+            
           </div>
 
           <div className={styles.additionalInfoBanner}>
