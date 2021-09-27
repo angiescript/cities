@@ -23,7 +23,7 @@ const Citypage = ({ cityInfo }) => {
           <div className={styles.cityDesc}>
             <CityImage query={cityName} size={"small"} />
             <h1>{cityName}</h1>
-            <CityDescription query={cityName} />
+            <CityDescription cityInfo={cityInfo} />
           </div>
           <div className={styles.cityInfo}>
             <Weather query={cityName} lon={cityInfo.longitude} lat={cityInfo.latitude} open={weatherOpen} />

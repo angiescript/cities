@@ -25,8 +25,8 @@ const CityDescription = ({ cityInfo }) => {
   const request = axios
     .request(url)
     .then((response) => {
-      console.log(response.data.query.pages[0].extract.replace(/\. /, ". \n"));
-      setCityDescription(response.data.query.pages[0].extract.replace(/\. /, ". \n"));
+      console.dir(response.data.query.pages[0].extract.replace(/\. /g, ".\n"));
+      setCityDescription(response.data.query.pages[0].extract.replace(/\. /g, ".\n"));
       // setCityDescription(response.data.query.pages[0].extract);
       return request;
     })
@@ -72,7 +72,10 @@ const CityDescription = ({ cityInfo }) => {
     
   return (
     <div className={styles.mainDesc}>
+      <p>
+
       {CityDescription}
+      </p>
     </div>
   );
 };

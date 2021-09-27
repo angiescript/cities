@@ -59,8 +59,10 @@ const Currency = ({ cityInfo, open }) => {
     <div className={styles.exchangeDiv}>
       <h2>Change from </h2>
       <form className={styles.exchangeForm}>
-        <input type="text" placeholder="amount" value={amount} onChange={(e) => calculate(e)} />
-        {baseCurrency} to
+        <input type="text" placeholder="amount" value={amount} onChange={(e) => calculate(e)} /> {baseCurrency}
+        <div>
+
+         to
         <select onChange={(e) => newValue(e)}>
           {currencyList.map((list, i) => (
             <option key={i} value={list.value}>
@@ -68,6 +70,7 @@ const Currency = ({ cityInfo, open }) => {
             </option>
           ))}
         </select>
+        </div>
       </form>
       <p>
         1 {baseCurrency} = {currentRate.toFixed(3)} {selectedCurrency}
