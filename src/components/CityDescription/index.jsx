@@ -3,13 +3,8 @@ import styles from "./index.module.scss";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const CityDescription = () => {
-  const capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
-
-  
-  const cityName = capitalizeFirstLetter(useParams().query);
+const CityDescription = ({ cityInfo }) => {
+  const cityName = cityInfo.city;
   const [CityDescription, setCityDescription] = useState([]);
   const [text, setText] = useState("");
 
