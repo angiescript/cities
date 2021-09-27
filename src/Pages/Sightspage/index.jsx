@@ -77,7 +77,7 @@ const Sightspage = ({ cityInfo }) => {
 
         <BackButton url={`/${cityName}`} className={styles.backButton}/>
           <div className={styles.optionBox}>
-            <label for="cars">Choose category</label>
+            <label htmlFor="category">Choose category</label>
             <br></br>
             <select id="category" onChange={handleChange}>
               <option value="interesting_places">Interesting Sights</option>

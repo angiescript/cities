@@ -47,6 +47,7 @@ const Navbar = ({ cityInfo, setCityInfo }) => {
     if (searchLoaded) {
       history.push(`/${cityInfo.city}`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchLoaded]);
 
   return (

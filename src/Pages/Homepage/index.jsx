@@ -77,6 +77,7 @@ const Homepage = ({ setCityInfo, cityInfo }) => {
     if (searchLoaded) {
       history.push(onSubmitCity.city);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchLoaded]);
 
   const renderDropdown = () => {

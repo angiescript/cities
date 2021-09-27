@@ -30,11 +30,9 @@ const Currency = ({ cityInfo, open }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cityInfo]);
   useEffect(() => {
-    console.log(cityInfo);
     for (const currency in conRate) {
       if (currency === selectedCurrency) {
         setCurrentRate(conRate[currency]);
-        console.log(conRate[currency]);
       }
     }
   }, [selectedCurrency, conRate, cityInfo]);

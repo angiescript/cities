@@ -6,7 +6,7 @@ import FlightsBoard from "../../components/FlightsBoard";
 import SearchFlightsBoard from "../../components/SearchFlightsBoard";
 
 const Skyscannerapi = ({ cityInfo }) => {
-  const city = "Paris";
+  const city = cityInfo.city;
 
   const [quotes, setQuotes] = useState([]);
   const [flightData, setFlightData] = useState([]);
@@ -93,7 +93,6 @@ const Skyscannerapi = ({ cityInfo }) => {
         config
       )
       .then((response) => {
-        console.log(response.data);
         setSearchResult(response.data.Quotes);
       })
       .catch(function (error) {
@@ -103,6 +102,7 @@ const Skyscannerapi = ({ cityInfo }) => {
 
   useEffect(() => {
     fetchAirportsByCity(city);
+    window.scrollTo(0, 0)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -125,7 +125,6 @@ const Skyscannerapi = ({ cityInfo }) => {
   const resetDate = () => {
     setDepartureDate("");
   }
-
   return (
     <div className={styles.widgetContainer}>
       <div className={styles.poster}>
@@ -144,10 +143,10 @@ const Skyscannerapi = ({ cityInfo }) => {
                   >
                     <option></option>
                     <option value="SE-sky">Sverige</option>
-                    {sweAirports.map((airport) => {
+                    {sweAirports.map((airport, index) => {
                       return (
                         <option
-                          key={airport.Name}
+                          key={index}
                           value={airport.SkyscannerCode}
                         >
                           {airport.Name}
@@ -165,10 +164,10 @@ const Skyscannerapi = ({ cityInfo }) => {
                     onChange={(value2) => setTo(value2.target.value)}
                   >
                     <option></option>
-                    {notSweAirports.map((airport) => {
+                    {notSweAirports.map((airport, index) => {
                       return (
                         <option
-                          key={airport.Name}
+                          key={index}
                           value={airport.SkyscannerCode}
                         >
                           {airport.Name}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./index.module.scss";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Currency from "../../components/Currency";
 import Weather from "../../components/Weather";
 import CityDescription from "../../components/CityDescription";

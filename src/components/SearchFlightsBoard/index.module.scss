@@ -4,6 +4,13 @@ $headingColor: rgb(58, 120, 255);
 $textColor: rgb(68, 68, 68);
 $inputFiledColor: rgba(255, 255, 255, 0.74);
 
+.test {
+  border: yellow solid 5px;
+  max-height: 480px;
+  overflow: auto;
+  scroll-behavior: smooth;
+}
+
 .contentWrapper {
   width: 100%;
 }
@@ -22,7 +29,6 @@ $inputFiledColor: rgba(255, 255, 255, 0.74);
   margin-left: auto;
   margin-right: auto;
   width: 70%;
-  background-color: white;
   padding: 20px;
   border-radius: 5px;
   padding: 15px;
@@ -32,21 +38,19 @@ $inputFiledColor: rgba(255, 255, 255, 0.74);
   margin-bottom: 150px;
 }
 
-.flights{
-    background-color: whitesmoke;
-    height: 80px;
-    margin-bottom: 10px;
-    &:hover {
-        transform: scale(1.02);
-        cursor: pointer;
-      }
+.flights {
+  background-color: whitesmoke;
+  height: 80px;
+  margin-bottom: 10px;
+  &:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+  }
 }
 
 .flights td {
   height: 3.5rem;
   margin-bottom: 10px;
-
-  
 }
 
 tr td {

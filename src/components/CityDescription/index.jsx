@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./index.module.scss";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const CityDescription = ({ cityInfo }) => {
   const cityName = cityInfo.city;
   const [CityDescription, setCityDescription] = useState([]);
-  const [text, setText] = useState("");
 
   const url =
     "https://en.wikipedia.org/w/api.php?" +
@@ -25,9 +23,7 @@ const CityDescription = ({ cityInfo }) => {
   const request = axios
     .request(url)
     .then((response) => {
-      console.dir(response.data.query.pages[0].extract.replace(/\. /g, ".\n"));
       setCityDescription(response.data.query.pages[0].extract.replace(/\. /g, ".\n"));
-      // setCityDescription(response.data.query.pages[0].extract);
       return request;
     })
     .catch(function (error) {
