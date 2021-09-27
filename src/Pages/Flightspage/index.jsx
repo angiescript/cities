@@ -2,16 +2,20 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import BackButton from "../../components/BackButton";
+import FlightsBoard from "../../components/FlightsBoard";
+import SearchFlightsBoard from "../../components/SearchFlightsBoard";
 
 const Skyscannerapi = ({ cityInfo }) => {
-  const city = cityInfo.city;
+  const city = "Paris";
 
   const [quotes, setQuotes] = useState([]);
   const [flightData, setFlightData] = useState([]);
   const [sweAirports, setSweAirports] = useState([]);
   const [notSweAirports, setNotSweAirports] = useState([]);
-  const [date, setDate] = useState(null);
+  const [departureDate, setDepartureDate] = useState(null);
+  const [returnDate, setReturnDate] = useState(null);
+
+  const [searchResult, setSearchResult] = useState([]);
 
   const fetchAirportsByCity = async (city) => {
     const config = {
@@ -67,8 +71,18 @@ const Skyscannerapi = ({ cityInfo }) => {
       });
   };
 
-  const fetchSpecificFlights = async (from, to, date = "anytime") => {
+  const fetchSpecificFlights = async (from, to, departureDate) => {
+    
+    let newDate = "";
+
+    if (departureDate == null) {
+      newDate = "anytime";
+    } else {
+       newDate = departureDate;
+    }
+
     const config = {
+     
       headers: {
         "x-rapidapi-host":
           "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
@@ -78,11 +92,12 @@ const Skyscannerapi = ({ cityInfo }) => {
 
     await axios
       .get(
-        `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/SE/SEK/SE/${from}/${to}/${date}`,
+        `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/SE/SEK/SE/${from}/${to}/${newDate}`,
         config
       )
       .then((response) => {
         console.log(response.data);
+        setSearchResult(response.data.Quotes);
       })
       .catch(function (error) {
         console.error(error);
@@ -98,10 +113,12 @@ const Skyscannerapi = ({ cityInfo }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     console.log(`Från: ${from}`);
     console.log(`Till: ${to}`);
-    console.log(`Datum: ${date}`);
-    fetchSpecificFlights(from, to);
+    console.log(`Datum: ${departureDate}`);
+
+    fetchSpecificFlights(from, to, departureDate);
   };
 
   let today = new Date();
@@ -113,121 +130,98 @@ const Skyscannerapi = ({ cityInfo }) => {
 
   return (
     <div className={styles.widgetContainer}>
-      <h2>Find the cheapest airline tickets!</h2>
-      <h3>At all airports in Sweden to all airports in {city}</h3>
-      <div className={styles.formContainer}>
-        <form onSubmit={handleSubmit}>
-          <div className={styles.destinations}>
-            <div className={styles.from}>
-              <label>From</label>
-              <select
-                name="value1"
-                id="value2"
-                onChange={(value1) => setFrom(value1.target.value)}
-              >
-                <option value="SE-sky">Sverige</option>
-                {sweAirports.map((airport) => {
-                  return (
-                    <option key={airport.Name} value={airport.SkyscannerCode}>
-                      {airport.Name}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+      <div className={styles.poster}>
+        <div>
+          <h2>Find the cheapest airline tickets!</h2>
+          <h3>At all airports in Sweden to all airports in {city}</h3>
+          <div className={styles.formContainer}>
+            <form onSubmit={handleSubmit}>
+              <div className={styles.destinations}>
+                <div className={styles.from}>
+                  <label>From</label>
+                  <select
+                    name="value1"
+                    id="value2"
+                    onChange={(value1) => setFrom(value1.target.value)}
+                  >
+                    <option></option>
+                    <option value="SE-sky">Sverige</option>
+                    {sweAirports.map((airport) => {
+                      return (
+                        <option
+                          key={airport.Name}
+                          value={airport.SkyscannerCode}
+                        >
+                          {airport.Name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
 
-            <div className={styles.to}>
-              <label>To</label>
-              <select
-                name="value2"
-                id="value2"
-                onChange={(value2) => setTo(value2.target.value)}
-              >
-                {notSweAirports.map((airport) => {
-                  return (
-                    <option key={airport.Name} value={airport.SkyscannerCode}>
-                      {airport.Name}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+                <div className={styles.to}>
+                  <label>To</label>
+                  <select
+                    name="value2"
+                    id="value2"
+                    onChange={(value2) => setTo(value2.target.value)}
+                  >
+                    <option></option>
+                    {notSweAirports.map((airport) => {
+                      return (
+                        <option
+                          key={airport.Name}
+                          value={airport.SkyscannerCode}
+                        >
+                          {airport.Name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              </div>
+
+              <div className={styles.dates}>
+                <div className={styles.departureDate}>
+                  <label htmlFor="date">Departure</label>
+                  <input
+                    className={styles.date1}
+                    type="date"
+                    name="date1"
+                    id="date"
+                    min={today}
+                    value={departureDate}
+                    onChange={(departureDate) =>
+                      setDepartureDate(departureDate.target.value)
+                    }
+                  />
+                </div>
+
+                <div className={styles.arrivalDate}>
+                  <label htmlFor="date2">Return</label>
+                  <input
+                    disabled
+                    className={styles.date2}
+                    type="date"
+                    name="date2"
+                    id="date"
+                    min={today}
+                    value={returnDate}
+                    onChange={(returnDate) =>
+                      setReturnDate(returnDate.target.value)
+                    }
+                  />
+                </div>
+              </div>
+              <div className={styles.btnContainer}>
+                <button className={styles.submit}>Search</button>
+              </div>
+            </form>
           </div>
-
-          <div className={styles.dates}>
-            <div className={styles.departureDate}>
-              <label htmlFor="date">Departure</label>
-              <input
-                className={styles.date1}
-                type="date"
-                name="date1"
-                id="date"
-                min={today}
-                value={date}
-                onChange={(date) => setDate(date.target.value)}
-              />
-            </div>
-
-            <div className={styles.arrivalDate}>
-              <label htmlFor="date2">Return</label>
-              <input
-                className={styles.date2}
-                type="date"
-                name="date2"
-                id="date"
-                min={today}
-                value={date}
-                onChange={(date) => setDate(date.target.value)}
-              />
-            </div>
-          </div>
-          <div className={styles.btnContainer}>
-            <button className={styles.submit}>Search</button>
-          </div>
-        </form>
-      </div>
-      <div className={styles.contentWrapper}>
-        <div className={styles.tableDiv}>
-          <table>
-            <thead>
-              <tr>
-                <th>From</th>
-                <th>To</th>
-                <th>Price</th>
-                <th>Direct flight</th>
-                <th>Departure</th>
-              </tr>
-            </thead>
-            <tbody>
-              {quotes.map((dest) => {
-                let departureFromAirport = flightData.Places.find(
-                  (place) => dest.OutboundLeg.OriginId === place.PlaceId
-                ).Name;
-                let arriveToAirport = flightData.Places.find(
-                  (place) => dest.OutboundLeg.DestinationId === place.PlaceId
-                ).Name;
-                let departureDate = dest.OutboundLeg.DepartureDate.slice(0, 10);
-                let direct = "";
-
-                if (dest.Direct === true ? (direct = "Yes") : (direct = "No"))
-                  return (
-                    <tr className={styles.flights} key={dest.QuoteId}>
-                      <td className={styles.from}>{departureFromAirport}</td>
-                      <td className={styles.to}>{arriveToAirport}</td>
-                      <td className={styles.price}>From {dest.MinPrice} :-</td>
-                      <td>{direct}</td>
-                      <td>{departureDate}</td>
-                    </tr>
-                  );
-              })}
-            </tbody>
-          </table>
         </div>
-        <iframe
-          src="https://widgets.skyscanner.net/widget-server/widgets/iframe?skyscannerWidget=FlightSearchWidget&associateId=ABBBCCC&locale=sv-SE&market=SE&currency=SEK&directFlights=true"
-          title="widget"
-        ></iframe>
       </div>
+      <SearchFlightsBoard searchResult={searchResult} flightData={flightData} />
+      <FlightsBoard quotes={quotes} flightData={flightData} />
     </div>
   );
 };
