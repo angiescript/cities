@@ -29,7 +29,6 @@ $inputFiledColor: rgba(255, 255, 255, 0.863);
   h2,
   h3 {
     text-align: center;
-    
   }
 }
 
@@ -212,5 +211,17 @@ $inputFiledColor: rgba(255, 255, 255, 0.863);
     font-size: 28px;
     margin-bottom: 30px;
     color: $textColor;
+  }
+}
+
+.backButtonDiv {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  > div > i {
+    color: rgba(255, 255, 255, 0.692);
+    &:hover {
+      color: rgba(255, 255, 255, 0.911);
+    }
   }
 }

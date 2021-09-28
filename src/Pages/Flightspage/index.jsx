@@ -22,8 +22,7 @@ const Skyscannerapi = ({ cityInfo }) => {
     const config = {
       params: { query: `${city}` },
       headers: {
-        "x-rapidapi-host":
-          "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+        "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
         "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
       },
     };
@@ -44,8 +43,7 @@ const Skyscannerapi = ({ cityInfo }) => {
   const fetchFlightsByCityId = async (cityId) => {
     const config = {
       headers: {
-        "x-rapidapi-host":
-          "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+        "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
         "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
       },
     };
@@ -58,12 +56,8 @@ const Skyscannerapi = ({ cityInfo }) => {
       .then((response) => {
         setFlightData(response.data);
         setQuotes(response.data.Quotes);
-        let swe = response.data.Places.filter(
-          (airport) => airport.CountryName === "Sweden"
-        );
-        let notSwe = response.data.Places.filter(
-          (airport) => airport.CountryName !== `Sweden`
-        );
+        let swe = response.data.Places.filter((airport) => airport.CountryName === "Sweden");
+        let notSwe = response.data.Places.filter((airport) => airport.CountryName !== `Sweden`);
         setSweAirports(swe.sort((a, b) => (a.Name > b.Name && 1) || -1));
         setNotSweAirports(notSwe.sort((a, b) => (a.Name > b.Name && 1) || -1));
       })
@@ -81,8 +75,7 @@ const Skyscannerapi = ({ cityInfo }) => {
 
     const config = {
       headers: {
-        "x-rapidapi-host":
-          "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+        "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
         "x-rapidapi-key": "cbdb60d271msh4d770f4189d5422p10c515jsn248e3c4f8c77",
       },
     };
@@ -126,27 +119,25 @@ const Skyscannerapi = ({ cityInfo }) => {
     setDepartureDate("");
   };
 
-
   return (
     <div className={styles.widgetContainer}>
-      
       <div className={styles.poster}>
-      <BackButton url={`/${city}`} className={styles.backButton}/>
+        <div className={styles.backButtonDiv}>
+          <BackButton url={`/${city}`} className={styles.backButton} />
+        </div>
         <div>
           <h2>Find the cheapest airline tickets!</h2>
           <h3>At all airports in Sweden to all airports in {city}</h3>
           <div className={styles.formContainer}>
             <form onSubmit={handleSubmit}>
-              <input type="radio" name="One-way" className={styles.radioBtn} checked/>
-              <label htmlFor="One-wat" className={styles.radioLabel}>One way</label>
+              <input type="radio" name="One-way" className={styles.radioBtn} checked />
+              <label htmlFor="One-wat" className={styles.radioLabel}>
+                One way
+              </label>
               <div className={styles.destinations}>
                 <div className={styles.from}>
                   <label>From</label>
-                  <select
-                    name="value1"
-                    id="value2"
-                    onChange={(value1) => setFrom(value1.target.value)}
-                  >
+                  <select name="value1" id="value2" onChange={(value1) => setFrom(value1.target.value)}>
                     <option></option>
                     <option value="SE-sky">Sverige</option>
                     {sweAirports.map((airport, index) => {
@@ -161,11 +152,7 @@ const Skyscannerapi = ({ cityInfo }) => {
 
                 <div className={styles.to}>
                   <label>To</label>
-                  <select
-                    name="value2"
-                    id="value2"
-                    onChange={(value2) => setTo(value2.target.value)}
-                  >
+                  <select name="value2" id="value2" onChange={(value2) => setTo(value2.target.value)}>
                     <option></option>
                     {notSweAirports.map((airport, index) => {
                       return (
@@ -181,11 +168,11 @@ const Skyscannerapi = ({ cityInfo }) => {
               <div className={styles.dates}>
                 <div className={styles.departureDate}>
                   <div className={styles.labelContainer}>
-                  <label htmlFor="date">Departure</label>
-                <p className={styles.reset} onClick={() => resetDate()}>
-                  Reset date
-                </p>
-                </div>
+                    <label htmlFor="date">Departure</label>
+                    <p className={styles.reset} onClick={() => resetDate()}>
+                      Reset date
+                    </p>
+                  </div>
                   <input
                     className={styles.date1}
                     type="date"
@@ -193,9 +180,7 @@ const Skyscannerapi = ({ cityInfo }) => {
                     id="date"
                     min={today}
                     value={departureDate}
-                    onChange={(departureDate) =>
-                      setDepartureDate(departureDate.target.value)
-                    }
+                    onChange={(departureDate) => setDepartureDate(departureDate.target.value)}
                   />
                 </div>
 
@@ -209,20 +194,18 @@ const Skyscannerapi = ({ cityInfo }) => {
                     id="date"
                     min={today}
                     value={returnDate}
-                    onChange={(returnDate) =>
-                      setReturnDate(returnDate.target.value)
-                    }
+                    onChange={(returnDate) => setReturnDate(returnDate.target.value)}
                   />
                 </div>
               </div>
               <div className={styles.btnContainer}>
-                <button className={styles.submit}>Search</button> 
+                <button className={styles.submit}>Search</button>
               </div>
             </form>
           </div>
         </div>
       </div>
-      
+
       <SearchFlightsBoard searchResult={searchResult} flightData={flightData} />
       <FlightsBoard quotes={quotes} flightData={flightData} />
     </div>
