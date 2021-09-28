@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import FlightsBoard from "../../components/FlightsBoard";
 import SearchFlightsBoard from "../../components/SearchFlightsBoard";
+import BackButton from "../../components/BackButton";
 
 const Skyscannerapi = ({ cityInfo }) => {
   const city = cityInfo.city;
@@ -72,10 +73,9 @@ const Skyscannerapi = ({ cityInfo }) => {
   };
 
   const fetchSpecificFlights = async (from, to, departureDate) => {
-
     let newDate = "anytime";
 
-    if (departureDate !== "" ) {
+    if (departureDate !== "") {
       newDate = departureDate;
     }
 
@@ -102,7 +102,7 @@ const Skyscannerapi = ({ cityInfo }) => {
 
   useEffect(() => {
     fetchAirportsByCity(city);
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -124,15 +124,21 @@ const Skyscannerapi = ({ cityInfo }) => {
 
   const resetDate = () => {
     setDepartureDate("");
-  }
+  };
+
+
   return (
     <div className={styles.widgetContainer}>
+      
       <div className={styles.poster}>
+      <BackButton url={`/${city}`} className={styles.backButton}/>
         <div>
           <h2>Find the cheapest airline tickets!</h2>
           <h3>At all airports in Sweden to all airports in {city}</h3>
           <div className={styles.formContainer}>
             <form onSubmit={handleSubmit}>
+              <input type="radio" name="One-way" className={styles.radioBtn} checked/>
+              <label htmlFor="One-wat" className={styles.radioLabel}>One way</label>
               <div className={styles.destinations}>
                 <div className={styles.from}>
                   <label>From</label>
@@ -145,10 +151,7 @@ const Skyscannerapi = ({ cityInfo }) => {
                     <option value="SE-sky">Sverige</option>
                     {sweAirports.map((airport, index) => {
                       return (
-                        <option
-                          key={index}
-                          value={airport.SkyscannerCode}
-                        >
+                        <option key={index} value={airport.SkyscannerCode}>
                           {airport.Name}
                         </option>
                       );
@@ -166,10 +169,7 @@ const Skyscannerapi = ({ cityInfo }) => {
                     <option></option>
                     {notSweAirports.map((airport, index) => {
                       return (
-                        <option
-                          key={index}
-                          value={airport.SkyscannerCode}
-                        >
+                        <option key={index} value={airport.SkyscannerCode}>
                           {airport.Name}
                         </option>
                       );
@@ -180,7 +180,12 @@ const Skyscannerapi = ({ cityInfo }) => {
 
               <div className={styles.dates}>
                 <div className={styles.departureDate}>
+                  <div className={styles.labelContainer}>
                   <label htmlFor="date">Departure</label>
+                <p className={styles.reset} onClick={() => resetDate()}>
+                  Reset date
+                </p>
+                </div>
                   <input
                     className={styles.date1}
                     type="date"
@@ -211,13 +216,13 @@ const Skyscannerapi = ({ cityInfo }) => {
                 </div>
               </div>
               <div className={styles.btnContainer}>
-                <button className={styles.submit}>Search</button>
+                <button className={styles.submit}>Search</button> 
               </div>
-              <p className={styles.reset}onClick={() => resetDate()}>Reset date</p>
             </form>
           </div>
         </div>
       </div>
+      
       <SearchFlightsBoard searchResult={searchResult} flightData={flightData} />
       <FlightsBoard quotes={quotes} flightData={flightData} />
     </div>

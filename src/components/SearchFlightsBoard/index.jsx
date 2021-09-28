@@ -2,7 +2,9 @@ import styles from "./index.module.scss";
 
 const SearchFlightsBoard = ({ searchResult, flightData }) => {
   return (
+   
     <div className={styles.contentWrapper}>
+     <h3>Search Results </h3>
       <div className={styles.test}>
         <table className={styles.searchTable}>
           <tbody>
