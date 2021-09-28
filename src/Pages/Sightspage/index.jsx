@@ -70,13 +70,7 @@ const Sightspage = ({ cityInfo }) => {
     <div className={styles.main}>
        <div className={styles.headline}>
             <h2>Interesting places to visit in {cityName}</h2>
-          </div>
-
-      <div className={styles.paper}>
-        <div className={styles.banner}>
-
-        <BackButton url={`/${cityName}`} className={styles.backButton}/>
-          <div className={styles.optionBox}>
+            <div className={styles.optionBox}>
             <label htmlFor="category">Choose category</label>
             <br></br>
             <select id="category" onChange={handleChange}>
@@ -87,6 +81,13 @@ const Sightspage = ({ cityInfo }) => {
               <option value="amusements">Amusements</option>
             </select>
           </div>
+          </div>
+
+      <div className={styles.paper}>
+        <div className={styles.banner}>
+
+        <BackButton url={`/${cityName}`} className={styles.backButton}/>
+         
           
           <div className={styles.sightsBox}>
             {fullSightsInfo.map((sight, index) => {
@@ -94,7 +95,9 @@ const Sightspage = ({ cityInfo }) => {
                 <div className={styles.sight} key={index}>
                   <img src={sight.preview.source} alt={sight.wikipedia_extracts.title} />
                   <h3>{sight.name}</h3>
-                  <p>{sight.wikipedia_extracts.text}</p>
+                  <div className={styles.sightText}>
+                    <p>{sight.wikipedia_extracts.text}</p>
+                  </div>
                   <form action={sight.otm} target="_blank">
                     <input type="submit" value="Read more" />
                   </form>

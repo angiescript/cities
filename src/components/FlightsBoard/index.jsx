@@ -3,6 +3,7 @@ import styles from "./index.module.scss";
 const FlightsBoard = ({ quotes, flightData }) => {
   return (
     <div className={styles.contentWrapper}>
+      <h3>All flights</h3>
       <div className={styles.tableDiv}>
         <table className={styles.board}>
           <thead>

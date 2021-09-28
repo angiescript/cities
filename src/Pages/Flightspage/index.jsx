@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import FlightsBoard from "../../components/FlightsBoard";
 import SearchFlightsBoard from "../../components/SearchFlightsBoard";
+import BackButton from "../../components/BackButton";
 
 const Skyscannerapi = ({ cityInfo }) => {
   const city = cityInfo.city;
@@ -128,7 +129,9 @@ const Skyscannerapi = ({ cityInfo }) => {
 
   return (
     <div className={styles.widgetContainer}>
+      
       <div className={styles.poster}>
+      <BackButton url={`/${city}`} className={styles.backButton}/>
         <div>
           <h2>Find the cheapest airline tickets!</h2>
           <h3>At all airports in Sweden to all airports in {city}</h3>
@@ -219,6 +222,7 @@ const Skyscannerapi = ({ cityInfo }) => {
           </div>
         </div>
       </div>
+      
       <SearchFlightsBoard searchResult={searchResult} flightData={flightData} />
       <FlightsBoard quotes={quotes} flightData={flightData} />
     </div>

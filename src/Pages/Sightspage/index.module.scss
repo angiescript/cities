@@ -6,6 +6,8 @@ body {
 }
 
 .headline {
+  display: flex;
+  justify-content: space-between;
   color: white;
   padding-top: 1rem;
   padding-bottom: 2rem;
@@ -15,6 +17,10 @@ body {
     font-size: 2rem;
     letter-spacing: 1px;
   }
+  .optionBox {
+    padding-right: 2rem;
+  }
+
 }
 
 .main {
@@ -36,23 +42,20 @@ body {
       position: relative;
     }
 
-    .optionBox {
-      align-self: flex-end;
-      padding-right: 2rem;
-    }
+    
   }
 
   .sightsBox {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
 
     .sight {
       background-color: white;
       box-shadow: 5px 5px 3px grey;
       max-width: 20%;
-      max-height: 350px;
-      overflow: auto;
+      height: 400px;
+      overflow-x: hidden;
       scroll-behavior: smooth;
       padding: 1rem;
       display: flex;
@@ -72,43 +75,52 @@ body {
         padding: 5px 0px;
       }
 
-      p {
-        font-weight: 300;
-        font-size: small;
+      .sightText {
+        overflow-y: auto;
+
+        p {
+          font-weight: 300;
+          font-size: small;
+        }
       }
 
-      input {
-        padding: 15px 32px;
-        text-align: center;
-        font-size: small;
-        margin-top: 1rem;
-        border: none;
-        box-shadow: 2px 2px 3px grey;
-        border-radius: 5px;
-        cursor: pointer;
-      }
+      form {
+        margin-top: auto;
+        margin-bottom: 0.5rem;
 
-      input:hover {
-        background-color: rgb(182, 182, 182);
+        input {
+          padding: 10px 25px;
+          text-align: center;
+          font-size: small;
+
+          border: none;
+          box-shadow: 2px 2px 3px grey;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+
+        input:hover {
+          background-color: rgb(182, 182, 182);
+        }
       }
     }
 
-    .sight::-webkit-scrollbar {
+    .sightText::-webkit-scrollbar {
       width: 20px;
     }
 
-    .sight::-webkit-scrollbar-track {
+    .sightText::-webkit-scrollbar-track {
       background-color: transparent;
     }
 
-    .sight::-webkit-scrollbar-thumb {
+    .sightText::-webkit-scrollbar-thumb {
       background-color: #c2c2c2;
       border-radius: 20px;
       border: 6px solid transparent;
       background-clip: content-box;
     }
 
-    .sight::-webkit-scrollbar-thumb:hover {
+    .sightText::-webkit-scrollbar-thumb:hover {
       background-color: #a5a5a5;
     }
   }
