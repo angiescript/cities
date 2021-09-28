@@ -20,6 +20,10 @@ const Currency = ({ cityInfo, open }) => {
         setConRate(result.data.conversion_rates);
 
         const countryResult = await axios(`https://restcountries.com/v2/name/${country}`);
+
+        if (countryResult.data.status === 404) {
+          return null;
+        }
         setSelectedCurrency(countryResult.data[0].currencies[0].code);
 
         setCurrencyList([countryResult.data[0].currencies[0].code, ...Object.keys(result.data.conversion_rates)]);
@@ -59,15 +63,14 @@ const Currency = ({ cityInfo, open }) => {
       <form className={styles.exchangeForm}>
         <input type="text" placeholder="amount" value={amount} onChange={(e) => calculate(e)} /> {baseCurrency}
         <div>
-
-         to
-        <select onChange={(e) => newValue(e)}>
-          {currencyList.map((list, i) => (
-            <option key={i} value={list.value}>
-              {list}
-            </option>
-          ))}
-        </select>
+          to
+          <select onChange={(e) => newValue(e)}>
+            {currencyList.map((list, i) => (
+              <option key={i} value={list.value}>
+                {list}
+              </option>
+            ))}
+          </select>
         </div>
       </form>
       <p>

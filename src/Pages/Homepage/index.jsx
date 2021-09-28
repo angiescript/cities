@@ -116,7 +116,7 @@ const Homepage = ({ setCityInfo, cityInfo }) => {
     <div className={styles.main}>
       <div className={styles.heroDiv}>
         <div className={styles.heroImage}>
-          <CityImage query={"city skyline"} size={"full"} /> 
+          <CityImage query={"city skyline"} size={"full"} />
         </div>
         <div className={styles.overlay} />
 
@@ -128,10 +128,7 @@ const Homepage = ({ setCityInfo, cityInfo }) => {
           <div className={styles.searchDiv}>
             <form onSubmit={(e) => handleSubmit(e)}>
               <input
-                className={combineClasses(
-                  styles.input,
-                  cities.length && styles.removeBorderRadius
-                )}
+                className={combineClasses(styles.input, cities.length && styles.removeBorderRadius)}
                 spellCheck="false"
                 type="text"
                 placeholder="Search for a city..."
@@ -143,17 +140,9 @@ const Homepage = ({ setCityInfo, cityInfo }) => {
               <ul>{renderDropdown()}</ul>
             </div>
           </div>
-          <div
-            className={styles.scrollDownContainer}
-            onClick={() => scrollOnClick()}
-          >
+          <div className={styles.scrollDownContainer} onClick={() => scrollOnClick()}>
             Featured Cities
-            <i
-              className={combineClasses(
-                "fas fa-chevron-down",
-                styles.scrollDownIcon
-              )}
-            ></i>
+            <i className={combineClasses("fas fa-chevron-down", styles.scrollDownIcon)}></i>
           </div>
         </div>
       </div>

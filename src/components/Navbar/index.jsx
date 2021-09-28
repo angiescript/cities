@@ -45,6 +45,7 @@ const Navbar = ({ cityInfo, setCityInfo }) => {
 
   useEffect(() => {
     if (searchLoaded) {
+      setSearchLoaded(false);
       history.push(`/${cityInfo.city}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

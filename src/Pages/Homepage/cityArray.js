@@ -8,7 +8,6 @@ const cityArray = [
   "ottawa",
   "copenhagen",
   "Sydney",
-  "Jamestown",
   "Beijing",
   "Barcelona",
   "Quebec",
